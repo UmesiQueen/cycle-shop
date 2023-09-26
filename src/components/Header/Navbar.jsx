@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Turn as Hamburger } from "hamburger-react";
 import classNames from "classnames";
 
-import "./Navbar.css";
+import "./style.css";
 import { Logo } from "../../assets/icons/index";
 
 const theme = createTheme({
@@ -30,61 +30,59 @@ const Header = () => {
   const [isOpen, setOpen] = useState(false);
 
   return (
-    <header className="relative">
-      <nav className="flex justify-between items-center px-8 min-h-[90px] ">
-        <Link to="/">
-          <img src={Logo} srcSet="" alt="cycle shop" width={80} height={48} />
-        </Link>
-
-        {/* MENU LINKS */}
-        <ul
-          ref={menuRef}
-          className={classNames(
-            "uppercase font-semibold md:flex gap-5",
-            !isOpen && window.innerWidth <= 768 ? "hidden" : ""
-          )}
-        >
-          {[
-            ["Home", "/"],
-            ["Bicycles", "product-category/bicycles"],
-            ["Accessories", "product-category/accessories"],
-            ["About Us", "about-us"],
-            ["Contact", "contact"],
-          ].map(([title, url], index) => (
-            <li key={index}>
-              <NavLink
-                to={url}
-                className={`hover:text-global-color-7 ${active}`}
-              >
-                {title}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-
-        <div className="flex items-center gap-1">
-          <span className=" cart-total font-black ">$0.00</span>
-
-          <ThemeProvider theme={theme}>
-            <IconButton aria-label="cart" color="primary">
-              <Badge badgeContent={0} color="primary" showZero>
-                <ShoppingCartIcon color="primary" />
-              </Badge>
-            </IconButton>
-          </ThemeProvider>
-
-          <div className="md:hidden">
-            <Hamburger
-              label="Show menu"
-              toggled={isOpen}
-              toggle={setOpen}
-              rounded
-              duration={0.8}
-              size={24}
-            />
+    <header>
+      <div className="relative __container">
+        <nav className="flex justify-between items-center min-h-[80px] ">
+          <Link to="/">
+            <img src={Logo} srcSet="" alt="cycle shop" width={80} height={48} />
+          </Link>
+          {/* MENU LINKS */}
+          <ul
+            ref={menuRef}
+            className={classNames(
+              "uppercase font-semibold md:flex gap-5",
+              !isOpen && window.innerWidth <= 768 ? "hidden" : ""
+            )}
+          >
+            {[
+              ["Home", "/"],
+              ["Bicycles", "product-category/bicycles"],
+              ["Accessories", "product-category/accessories"],
+              ["About Us", "about"],
+              ["Contact", "contact"],
+            ].map(([title, url], index) => (
+              <li key={index}>
+                <NavLink
+                  to={url}
+                  className={`hover:text-global-color-7 ${active}`}
+                >
+                  {title}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+          <div className="flex items-center gap-1">
+            <span className=" cart-total font-black ">$0.00</span>
+            <ThemeProvider theme={theme}>
+              <IconButton aria-label="cart" color="primary">
+                <Badge badgeContent={0} color="primary" showZero>
+                  <ShoppingCartIcon color="primary" />
+                </Badge>
+              </IconButton>
+            </ThemeProvider>
+            <div className="md:hidden">
+              <Hamburger
+                label="Show menu"
+                toggled={isOpen}
+                toggle={setOpen}
+                rounded
+                duration={0.8}
+                size={24}
+              />
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
   );
 };

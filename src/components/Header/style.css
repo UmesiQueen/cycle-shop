@@ -1,3 +1,7 @@
+header {
+  background-color: var(--global-color-0);
+}
+
 .pending {
   opacity: 0.5;
 }

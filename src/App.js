@@ -7,13 +7,13 @@ import Footer from "./components/Footer/Footer";
 
 const App = () => {
   return (
-    <div className=" font-DM_Sans bg-slate-400 text-global-color-5 ">
+    <>
       <Header />
       <main>
         <Outlet />
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

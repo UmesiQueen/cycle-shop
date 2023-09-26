@@ -1,0 +1,35 @@
+.cart {
+  visibility: hidden;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 8px;
+  color: var(--global-color-7);
+  background-color: #ffffffee;
+  border-radius: 50%;
+}
+
+.cart:hover {
+  visibility: visible;
+  color: var(--global-color-8);
+  background-color: rgb(255, 255, 255);
+}
+
+.product-image:hover ~ .cart {
+  visibility: visible;
+}
+
+.gibberish {
+  display: flex;
+  column-gap: 10px;
+  margin: 5px 0;
+}
+
+.gibberish li {
+  width: 38px;
+  color: black;
+  text-align: center;
+  border: 1px #c0c0c0 solid;
+  border-radius: 3px;
+  text-transform: uppercase;
+}

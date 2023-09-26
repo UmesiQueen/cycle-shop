@@ -18,14 +18,6 @@ module.exports = {
         "code-block-background": "#eeeeee",
         "comment-inputs-background": "#fafafa",
       },
-      padding: {
-        "lg-padding": "5.67em",
-        "slg-padding": "4.34em",
-        "md-padding": "3.34em",
-        "sm-padding": "6.67em",
-        "xs-padding": "2.4em;",
-        "xxs-padding": "1.4em",
-      },
       fontFamily: {
         Racing_Sans_One: ["Racing_Sans_One"],
         DM_Sans: ["DM_Sans"],

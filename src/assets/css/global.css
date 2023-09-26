@@ -154,7 +154,7 @@ input[data-autocompleted] {
   }
 }
 
-.error {
+.default{
   color: #000000;
   min-height: 50vh;
   padding: 3rem 0 0 3rem;

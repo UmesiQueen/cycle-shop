@@ -55,6 +55,9 @@ const Header = () => {
                 <NavLink
                   to={url}
                   className={`hover:text-global-color-7 ${active}`}
+                  onClick={() => {
+                    setOpen(false);
+                  }}
                 >
                   {title}
                 </NavLink>

@@ -7,15 +7,30 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <div className="error">Oops! Page Not Found</div>,
     children: [
       {
         path: "*",
-        element: <div className="error">Oops! Page Not Found</div>,
+        element: <div className="default">Oops! Page Not Found</div>,
       },
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "product-category/bicycles",
+        element: <div className="default">Coming soon</div>,
+      },
+      {
+        path: "product-category/accessories",
+        element: <div className="default">Coming soon</div>,
+      },
+      {
+        path: "about",
+        element: <div className="default">Coming soon</div>,
+      },
+      {
+        path: "contact",
+        element: <div className="default">Coming soon</div>,
       },
     ],
   },

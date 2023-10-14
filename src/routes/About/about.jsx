@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 import Icon from "@mdi/react";
 import { mdiPlayCircleOutline } from "@mdi/js";
 
@@ -8,7 +8,7 @@ import Extras from "../../components/Extras/Extras";
 
 const About = () => {
   return (
-    <HelmetProvider>
+    <>
       <Helmet>
         <title>About Us - Cycle Shop</title>
         <meta
@@ -152,7 +152,7 @@ const About = () => {
         </section>
         <Extras />
       </div>
-    </HelmetProvider>
+    </>
   );
 };
 

@@ -79,7 +79,7 @@ input[data-autocompleted] {
 .__container {
   width: 100%;
   height: 100%;
-  padding: 0 16px;
+  padding: 0 14px;
 
   display: flex;
   flex-direction: column;
@@ -154,7 +154,7 @@ input[data-autocompleted] {
   }
 }
 
-.default{
+.default {
   color: #000000;
   min-height: 50vh;
   padding: 3rem 0 0 3rem;

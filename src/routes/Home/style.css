@@ -168,26 +168,3 @@
     height: 280px;
   }
 }
-
-/* Programme */
-#programme {
-  background-color: var(--global-color-4);
-  padding: 60px 0;
-}
-
-#programme .background-image {
-  height: 600px;
-  background-image: url("../../assets/images/bgImage/join-programme.jpg");
-}
-
-/* All New */
-#all-new.background-image {
-  background-image: url("../../assets/images/bgImage/bike-hero.jpg");
-}
-
-@media screen and (min-width: 768px) {
-  #all-new.background-image {
-    height: 600px;
-    background-attachment: fixed;
-  }
-}

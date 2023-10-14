@@ -13,7 +13,7 @@ const ProductCard = ({
   srcSet,
   prices,
 }) => {
-  const [cost, setCost] = useState("");
+  const [isActive, setActive] = useState("");
 
   return (
     <div className=" w-fit">
@@ -49,14 +49,30 @@ const ProductCard = ({
           </span>
         ) : (
           <>
-            <span className="font-extrabold text-global-color-3 py-2 ">
-              {cost}
-            </span>
-            <ul className="gibberish">
-              {prices.map((amount, index) => {
+            {isActive.length < 1 ? (
+              <span className="font-extrabold text-global-color-3 py-2 ">
+                ${Math.min(...prices.map((item) => item.cost))} - $
+                {Math.max(...prices.map((item) => item.cost))}
+              </span>
+            ) : (
+              <span className="font-extrabold text-global-color-3 py-2">
+                $
+                {prices.map((item, index) =>
+                  index === isActive ? item.cost : null
+                )}
+              </span>
+            )}
+
+            <ul className="accessory-size">
+              {prices.map((item, index) => {
                 return (
-                  <li key={index} role="button">
-                    {amount.size}
+                  <li
+                    key={index}
+                    role="button"
+                    className={isActive === index ? "active" : ""}
+                    onClick={() => setActive(index)}
+                  >
+                    {item.size}
                   </li>
                 );
               })}

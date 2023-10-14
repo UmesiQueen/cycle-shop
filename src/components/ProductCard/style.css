@@ -19,17 +19,22 @@
   visibility: visible;
 }
 
-.gibberish {
+.accessory-size {
   display: flex;
   column-gap: 10px;
   margin: 5px 0;
 }
 
-.gibberish li {
+.accessory-size li {
   width: 38px;
   color: black;
   text-align: center;
   border: 1px #c0c0c0 solid;
   border-radius: 3px;
   text-transform: uppercase;
+}
+
+.accessory-size .active {
+  outline: 1.7px black solid;
+  font-weight: 500;
 }

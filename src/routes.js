@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Home from "./routes/Home/home";
 import About from "./routes/About/about";
+import Contact from "./routes/Contact/contact";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: "contact",
-        element: <div className="default">Coming soon</div>,
+        element: <Contact />,
       },
     ],
   },

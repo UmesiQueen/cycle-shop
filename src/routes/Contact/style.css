@@ -1,0 +1,76 @@
+.contact-landing {
+  height: 400px;
+  background-image: url("../../assets/images/bgImage/about-movie.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.contact-info,
+.contact-container {
+  color: black;
+  padding: 4rem 2rem;
+}
+
+.contact-info .icons {
+  color: var(--global-color-0);
+}
+
+.contact-details {
+  background: var(--global-color-4);
+}
+
+.contact-details input,
+.contact-details textarea {
+  background-color: transparent;
+  border: 0.2px var(--global-color-3) solid;
+  padding: 10px;
+  font-weight: 500;
+  resize: vertical;
+  width: 100%;
+}
+
+.contact-container > div:last-child {
+  padding: 2rem 0;
+}
+.contact-container > div:last-child ul li {
+  margin-top: 0.7em;
+}
+.contact-container > div:last-child ul li p {
+  font-size: 15px;
+}
+
+@media screen and (min-width: 768px) {
+  .contact-info {
+    padding: 7rem 7rem 12rem;
+  }
+
+  .contact-container {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 7em;
+  }
+
+  .contact-container > div {
+    width: 50%;
+  }
+
+  .contact-container > div:first-child {
+    position: relative;
+    justify-self: center;
+  }
+
+  .contact-container form {
+    padding: 4rem 3rem;
+    position: absolute;
+    top: -150px;
+    left: 0;
+    background-color: var(--global-color-5);
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+      rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  }
+
+  .contact-container > div:last-child {
+    padding: 2rem 4rem;
+  }
+}

@@ -1,0 +1,43 @@
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
+import "./style.css";
+import { productData } from "../../assets/data/products";
+import ProductCard from "../../components/ProductCard/ProductCard";
+
+const ProductCategory = () => {
+  const [data, setData] = useState([]);
+  const { productType } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const dataArray = productData.filter(
+      (item) => item.productType.toLowerCase() === productType.toLowerCase()
+    );
+
+    if (dataArray.length > 0) setData(dataArray);
+    else navigate("/404");
+  }, [setData, productType, navigate]);
+
+  return (
+    <div className="text-black bg-global-color-4">
+      <div className="__container">
+        <section className="bg-global-color-5 px-10 py-5 my-20">
+          <h1 className="capitalize text-global-color-0 mb-10">
+            {productType}
+          </h1>
+          <p className="my-5">Showing all {data.length} results</p>
+          <ul className="grid grid-cols-2 md:grid-cols-3 gap-5 my-10">
+            {data.map((item) => (
+              <li key={item.productId}>
+                <ProductCard {...item} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCategory;

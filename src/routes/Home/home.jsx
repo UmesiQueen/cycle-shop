@@ -6,7 +6,7 @@ import { mdiBullseye } from "@mdi/js";
 import "./style.css";
 import Button from "../../components/Button/Button";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import { bicycles, accessories } from "../../components/ProductCard/products";
+import { productData } from "../../assets/data/products";
 import Extras from "../../components/Extras/Extras";
 const Home = () => {
   return (
@@ -63,14 +63,17 @@ const Home = () => {
             <div className="p-3 md:p-0 ">
               <h2 className="text-black text-center mb-14">New Arrivals</h2>
               <ul className="__grid-container">
-                {bicycles.slice(0, 4).map((item) => (
-                  <li
-                    key={item.productId}
-                    className={`__grid-item col-${item.productId}`}
-                  >
-                    <ProductCard {...item} />
-                  </li>
-                ))}
+                {productData
+                  .filter((item) => item.productType === "Bicycles")
+                  .slice(0, 4)
+                  .map((item) => (
+                    <li
+                      key={item.productId}
+                      className={`__grid-item col-${item.productId}`}
+                    >
+                      <ProductCard {...item} />
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>
@@ -141,15 +144,17 @@ const Home = () => {
                 Explore Accessories
               </h2>
               <ul className="__grid-container">
-                {accessories.slice(0, 4).map((item) => (
-                  <li
-                    key={item.productId}
-                    className={`__grid-item col-${item.productId}`}
-                    data-product_id={item.productId}
-                  >
-                    <ProductCard {...item} />
-                  </li>
-                ))}
+                {productData
+                  .filter((item) => item.productType === "Accessories")
+                  .slice(0, 4)
+                  .map((item) => (
+                    <li
+                      key={item.productId}
+                      className={`__grid-item col-${item.productId}`}
+                    >
+                      <ProductCard {...item} />
+                    </li>
+                  ))}
               </ul>
               <div className=" mt-10 text-center ">
                 <Button title="View All" />

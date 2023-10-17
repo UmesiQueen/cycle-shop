@@ -4,6 +4,7 @@ import App from "./App";
 import Home from "./routes/Home/home";
 import About from "./routes/About/about";
 import Contact from "./routes/Contact/contact";
+import ProductCategory from "./routes/ProductCategory/ProductCategory";
 
 const router = createBrowserRouter([
   {
@@ -19,12 +20,8 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "product-category/bicycles",
-        element: <div className="default">Coming soon</div>,
-      },
-      {
-        path: "product-category/accessories",
-        element: <div className="default">Coming soon</div>,
+        path: "product-category/:productType",
+        element: <ProductCategory />,
       },
       {
         path: "about",

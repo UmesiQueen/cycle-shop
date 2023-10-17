@@ -27,7 +27,7 @@ import {
   Bicycle4_400,
   Bicycle4_768,
   Bicycle4_800,
-} from "../../assets/images/bicycles/index";
+} from "../images/bicycles/index";
 
 import {
   YellowGlove,
@@ -100,80 +100,9 @@ import {
   BlueHelmet_400,
   BlueHelmet_768,
   BlueHelmet_800,
-} from "../../assets/images/accessories/index";
+} from "../images/accessories/index";
 
-const bicycles = [
-  {
-    productId: 1,
-    productType: "Bicycles",
-    name: "Kryo X26 MTB – Model K",
-    src: Bicycle1_800,
-    srcSet: [
-      ` ${Bicycle1_100} 100w`,
-      `${Bicycle1_150} 150w`,
-      `${Bicycle1_300} 300w`,
-      `${Bicycle1_400} 400w`,
-      `${Bicycle1_768} 768w`,
-      `${Bicycle1_800} 800w`,
-      `${Bicycle1} 1000w`,
-    ],
-    alt: "model k",
-    price: "350.00",
-  },
-  {
-    productId: 2,
-    productType: "Bicycles",
-    name: "Kryo X26 MTB – Model X",
-    src: Bicycle2_800,
-    srcSet: [
-      `${Bicycle2_100} 100w`,
-      `${Bicycle2_150} 150w`,
-      `${Bicycle2_300} 300w`,
-      `${Bicycle2_400} 400w`,
-      `${Bicycle2_768} 768w`,
-      `${Bicycle2_800} 800w`,
-      `${Bicycle2} 1000w`,
-    ],
-    alt: "model x",
-    price: "350.00",
-  },
-  {
-    productId: 3,
-    productType: "Bicycles",
-    name: "Kryo X26 MTB – Model Y",
-    src: Bicycle3_800,
-    srcSet: [
-      `${Bicycle3_100} 100w`,
-      `${Bicycle3_150} 150w`,
-      `${Bicycle3_300} 300w`,
-      `${Bicycle3_400} 400w`,
-      `${Bicycle3_768} 768w`,
-      `${Bicycle3_800} 800w`,
-      `${Bicycle3} 1000w`,
-    ],
-    alt: "model y",
-    price: "350.00",
-  },
-  {
-    productId: 4,
-    productType: "Bicycles",
-    name: "Kryo X26 MTB – Model Z",
-    src: Bicycle4_800,
-    srcSet: [
-      `${Bicycle4_100} 100w`,
-      `${Bicycle4_150} 150w`,
-      `${Bicycle4_300} 300w`,
-      `${Bicycle4_400} 400w`,
-      `${Bicycle4_768} 768w`,
-      `${Bicycle4_800} 800w`,
-      `${Bicycle4} 1000w`,
-    ],
-    alt: "model z",
-    price: "350.00",
-  },
-];
-
-const accessories = [
+const productData = [
   {
     productId: 1,
     productType: "Accessories",
@@ -474,6 +403,74 @@ const accessories = [
       },
     ],
   },
+  {
+    productId: 11,
+    productType: "Bicycles",
+    name: "Kryo X26 MTB – Model K",
+    src: Bicycle1_800,
+    srcSet: [
+      ` ${Bicycle1_100} 100w`,
+      `${Bicycle1_150} 150w`,
+      `${Bicycle1_300} 300w`,
+      `${Bicycle1_400} 400w`,
+      `${Bicycle1_768} 768w`,
+      `${Bicycle1_800} 800w`,
+      `${Bicycle1} 1000w`,
+    ],
+    alt: "model k",
+    price: "350.00",
+  },
+  {
+    productId: 12,
+    productType: "Bicycles",
+    name: "Kryo X26 MTB – Model X",
+    src: Bicycle2_800,
+    srcSet: [
+      `${Bicycle2_100} 100w`,
+      `${Bicycle2_150} 150w`,
+      `${Bicycle2_300} 300w`,
+      `${Bicycle2_400} 400w`,
+      `${Bicycle2_768} 768w`,
+      `${Bicycle2_800} 800w`,
+      `${Bicycle2} 1000w`,
+    ],
+    alt: "model x",
+    price: "350.00",
+  },
+  {
+    productId: 13,
+    productType: "Bicycles",
+    name: "Kryo X26 MTB – Model Y",
+    src: Bicycle3_800,
+    srcSet: [
+      `${Bicycle3_100} 100w`,
+      `${Bicycle3_150} 150w`,
+      `${Bicycle3_300} 300w`,
+      `${Bicycle3_400} 400w`,
+      `${Bicycle3_768} 768w`,
+      `${Bicycle3_800} 800w`,
+      `${Bicycle3} 1000w`,
+    ],
+    alt: "model y",
+    price: "350.00",
+  },
+  {
+    productId: 14,
+    productType: "Bicycles",
+    name: "Kryo X26 MTB – Model Z",
+    src: Bicycle4_800,
+    srcSet: [
+      `${Bicycle4_100} 100w`,
+      `${Bicycle4_150} 150w`,
+      `${Bicycle4_300} 300w`,
+      `${Bicycle4_400} 400w`,
+      `${Bicycle4_768} 768w`,
+      `${Bicycle4_800} 800w`,
+      `${Bicycle4} 1000w`,
+    ],
+    alt: "model z",
+    price: "350.00",
+  },
 ];
 
-export { bicycles, accessories };
+export { productData };

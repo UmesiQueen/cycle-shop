@@ -20,14 +20,14 @@ const ProductCategory = () => {
   }, [setData, productType, navigate]);
 
   return (
-    <div className="text-black bg-global-color-4">
+    <div className="text-black md:bg-global-color-4">
       <div className="__container">
-        <section className="bg-global-color-5 px-10 py-5 my-20">
+        <section className="bg-global-color-5 md:px-10 py-5 my-10 md:my-20">
           <h1 className="capitalize text-global-color-0 mb-10">
             {productType}
           </h1>
           <p className="my-5">Showing all {data.length} results</p>
-          <ul className="grid grid-cols-2 md:grid-cols-3 gap-5 my-10">
+          <ul className="grid grid-cols-2 md:grid-cols-3 gap-5 md:my-10">
             {data.map((item) => (
               <li key={item.productId}>
                 <ProductCard {...item} />

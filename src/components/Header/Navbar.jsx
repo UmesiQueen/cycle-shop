@@ -31,7 +31,7 @@ const Header = () => {
 
   return (
     <header>
-      <div className="relative __container">
+      <div className="relative __container z-[1]">
         <nav className="flex justify-between items-center min-h-[80px] ">
           <Link to="/">
             <img src={Logo} srcSet="" alt="cycle shop" width={80} height={48} />

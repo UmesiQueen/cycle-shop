@@ -16,7 +16,7 @@ const ProductCard = ({
   const [isActive, setActive] = useState("");
 
   return (
-    <div className=" w-fit">
+    <div className=" w-fit h-full flex flex-col">
       <div className="relative mb-3">
         <a href="." className="product-image">
           <img
@@ -32,9 +32,11 @@ const ProductCard = ({
           <Icon path={mdiCart} size={0.8} />
         </a>
       </div>
-      <div className="pb-3">
-        <span className="text-sm text-global-color-3 mb-2">{productType}</span>
-        <h5 className="text-global-color-2 mb-1">{name}</h5>
+
+      <span className="text-sm text-global-color-3">{productType}</span>
+      <h5 className="text-global-color-2 ">{name}</h5>
+
+      <div className=" mt-auto">
         <div className="flex -space-x-[3px] text-global-color-7" aria-hidden>
           <Icon path={mdiStarOutline} size={0.8} />
           <Icon path={mdiStarOutline} size={0.8} />
@@ -62,7 +64,6 @@ const ProductCard = ({
                 )}
               </span>
             )}
-
             <ul className="accessory-size">
               {prices.map((item, index) => {
                 return (

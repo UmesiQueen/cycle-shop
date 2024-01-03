@@ -10,7 +10,6 @@ import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { productData } from "../../assets/data/products";
-import Button from "../../components/Button/Button";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import "./style.css";
 
@@ -269,7 +268,7 @@ const Product = () => {
                     </div>
 
                     <div>
-                      <Button title="Submit" />
+                      <button className="btn">Submit</button>
                     </div>
                   </form>
                 </section>

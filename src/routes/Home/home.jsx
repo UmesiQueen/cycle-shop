@@ -4,7 +4,6 @@ import Icon from "@mdi/react";
 import { mdiBullseye } from "@mdi/js";
 
 import "./style.css";
-import Button from "../../components/Button/Button";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { productData } from "../../assets/data/products";
 import Extras from "../../components/Extras/Extras";
@@ -51,7 +50,7 @@ const Home = () => {
                 </ul>
               </div>
               <div className="pt-4 md:pt-7">
-                <Button title="Buy Now" />
+                <button className="btn">Buy Now</button>
               </div>
             </div>
           </div>
@@ -157,7 +156,7 @@ const Home = () => {
                   ))}
               </ul>
               <div className=" mt-10 text-center ">
-                <Button title="View All" />
+                <button className="btn">View All</button>
               </div>
             </div>
           </div>
@@ -209,7 +208,7 @@ const DiscoverContainer = ({ title }) => {
           </ul>
         </div>
         <div className="pt-5">
-          <Button title="Explore now" />
+          <button className="btn">Explore Now</button>
         </div>
       </div>
     </div>

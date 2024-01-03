@@ -5,7 +5,6 @@ import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 
 import "./style.css";
-import Button from "../../components/Button/Button";
 
 const Contact = () => {
   return (
@@ -85,7 +84,7 @@ const Contact = () => {
                   <input type="text" placeholder="Enter email address" />
                   <textarea placeholder="Enter your message" rows={6} />
                   <div className="pb-6">
-                    <Button title="Send Message" />
+                    <button className="btn">Send Message</button>
                   </div>
                 </form>
               </div>

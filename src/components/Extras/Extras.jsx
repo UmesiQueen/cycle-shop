@@ -3,7 +3,6 @@ import Icon from "@mdi/react";
 import { mdiPlayCircleOutline } from "@mdi/js";
 
 import "./style.css";
-import Button from "../Button/Button";
 
 const Extras = () => {
   return (
@@ -38,7 +37,7 @@ const Extras = () => {
                 </p>
               </div>
               <div>
-                <Button title="JOIN THE PROGRAMME" />
+                <button className="btn">JOIN THE PROGRAMME</button>
               </div>
             </div>
           </div>
@@ -57,7 +56,7 @@ const Extras = () => {
               himenaeos. Mauris in erat justo.
             </p>
             <div className="pt-4">
-              <Button title="Shop Now" />
+              <button className="btn">Shop Now</button>
             </div>
           </div>
         </div>

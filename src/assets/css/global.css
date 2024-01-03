@@ -159,3 +159,14 @@ input[data-autocompleted] {
   min-height: 50vh;
   padding: 3rem 0 0 3rem;
 }
+
+/* icons */
+.icon-style {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 8px;
+  color: var(--global-color-7);
+  background-color: #ffffffee;
+  border-radius: 50%;
+}

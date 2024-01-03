@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Icon from "@mdi/react";
 import { mdiCart, mdiStarOutline } from "@mdi/js";
 
@@ -14,11 +15,23 @@ const ProductCard = ({
   prices,
 }) => {
   const [isActive, setActive] = useState("");
+  const [productName, setProductName] = useState("");
+
+  useEffect(() => {
+    const regex = new RegExp("^[a-zA-Z0-9]*$");
+    const formatString = name
+      .split(" ")
+      .filter((item) => item.match(regex))
+      .join("-")
+      .toLowerCase();
+
+    setProductName(formatString);
+  }, [name]);
 
   return (
     <div className=" w-fit h-full flex flex-col">
       <div className="relative mb-3">
-        <a href="." className="product-image">
+        <Link to={`/product/${productName}`} className="product-image">
           <img
             src={src}
             srcSet={srcSet}
@@ -27,8 +40,13 @@ const ProductCard = ({
             width={800}
             height={800}
           />
-        </a>
-        <a href="." className="cart " title="add to cart" data-quantity={1}>
+        </Link>
+        <a
+          href="/add-to-cart"
+          className="cart "
+          title="add to cart"
+          data-quantity={1}
+        >
           <Icon path={mdiCart} size={0.8} />
         </a>
       </div>
@@ -49,7 +67,7 @@ const ProductCard = ({
           <span className="font-extrabold text-global-color-3 py-2 ">
             ${price}
           </span>
-        ) : (
+        ) : productType === "Accessories" ? (
           <>
             {isActive.length < 1 ? (
               <span className="font-extrabold text-global-color-3 py-2 ">
@@ -79,6 +97,8 @@ const ProductCard = ({
               })}
             </ul>
           </>
+        ) : (
+          "N/A"
         )}
       </div>
     </div>

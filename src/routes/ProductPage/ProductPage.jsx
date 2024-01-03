@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
 import { styled, useTheme } from "@mui/material/styles";
@@ -8,6 +8,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
 
 import { productData } from "../../assets/data/products";
 import ProductCard from "../../components/ProductCard/ProductCard";
@@ -19,7 +20,7 @@ let randomText =
 const StyledTabs = styled((props) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("sm"));
-  return <Tabs orientation={matches ? "vertical" : ""} {...props} />;
+  return <Tabs orientation={matches ? "vertical" : "horizontal"} {...props} />;
 })({
   "& .MuiTabs-indicator": {
     top: "0",
@@ -81,7 +82,7 @@ const Product = () => {
           .toLowerCase() === productName
     );
 
-    console.log(data, "product");
+    // console.log(data, "product");
 
     if (data.length > 0) setProduct(data[0]);
     else navigate("/404");
@@ -90,7 +91,7 @@ const Product = () => {
   }, [productName]);
 
   const handleChange = (event, newValue) => {
-    console.log(newValue, event.currentTarget.value);
+    // console.log(newValue, event.currentTarget.value);
     setTabContent(newValue);
   };
 
@@ -118,12 +119,21 @@ const Product = () => {
                   <SearchIcon />
                 </div>
               </div>
-              <div className="mt-10 md:mt-0 font-medium grow basis-1/2 flex flex-col gap-y-3">
-                {/* breadcrumbs */}
+              <div className="mt-10 font-medium grow basis-1/2 flex flex-col gap-y-3">
+                <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
+                  <Link to="/">Home</Link>
+                  <Link to={`/product-category/${product?.productType}`}>
+                    {product?.productType}
+                  </Link>
+                  <div className="capitalize">{product?.name}</div>
+                </Breadcrumbs>
+
                 <p className="text-global-color-0 font-semibold">
                   {product?.productType}
                 </p>
+
                 <h3>{product?.name}</h3>
+
                 <p>
                   <span className=" font-black text-xl md:text-3xl text-global-color-7">
                     {product?.productType === "Bicycles" ? (
@@ -181,9 +191,8 @@ const Product = () => {
                     className="btn"
                     disabled={
                       isActive === null &&
-                      product?.productType === "Accessories"
-                        ? "true"
-                        : ""
+                      product?.productType === "Accessories" &&
+                      true
                     }
                   >
                     Add to cart

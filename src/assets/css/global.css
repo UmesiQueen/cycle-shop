@@ -192,3 +192,20 @@ input[data-autocompleted] {
 .btn:disabled {
   filter: opacity(0.5);
 }
+
+/* breadcrumbs */
+.breadcrumbs .MuiBreadcrumbs-separator {
+  margin: 0 4px !important;
+}
+
+.breadcrumbs li {
+  font-weight: 600;
+}
+
+.breadcrumbs li a {
+  transition: 0.3s;
+}
+
+.breadcrumbs li a:hover {
+  color: black;
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
@@ -12,6 +12,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 
 import { productData } from "../../assets/data/products";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import { CartItemsContext } from "../../hooks/CartContext";
 import "./style.css";
 
 let randomText =
@@ -31,7 +32,7 @@ const StyledTabs = styled((props) => {
   },
 });
 
-function StyledTabPanel(props) {
+const StyledTabPanel = (props) => {
   const { children, value, index, ...other } = props;
 
   return (
@@ -49,9 +50,9 @@ function StyledTabPanel(props) {
       )}
     </div>
   );
-}
+};
 
-function a11yProps(index) {
+const a11yProps = (index) => {
   return {
     sx: {
       fontFamily: "'DM_Sans', sans-serif",
@@ -62,14 +63,16 @@ function a11yProps(index) {
     id: `simple-tab-${index}`,
     "aria-controls": `simple-tabpanel-${index}`,
   };
-}
+};
 
 const Product = () => {
   const { productName } = useParams();
   const navigate = useNavigate();
+  const { setCurrentOrder, addToCart } = useContext(CartItemsContext);
   const [product, setProduct] = useState();
   const [tabContent, setTabContent] = useState(0);
-  const [isActive, setActive] = useState(null);
+  const [isActiveSize, setActiveSize] = useState(null);
+  const addToCartBtn = useRef();
 
   useEffect(() => {
     const regex = new RegExp("^[a-zA-Z0-9]*$");
@@ -82,17 +85,32 @@ const Product = () => {
           .toLowerCase() === productName
     );
 
-    // console.log(data, "product");
-
     if (data.length > 0) setProduct(data[0]);
     else navigate("/404");
+
+    setCurrentOrder((prev) => ({ ...prev, productId: data[0].productId }));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productName]);
 
-  const handleChange = (event, newValue) => {
-    // console.log(newValue, event.currentTarget.value);
+  const handleTabChange = (event, newValue) => {
     setTabContent(newValue);
+  };
+
+  const handleQuantityChange = (event) => {
+    const { name, value } = event.currentTarget;
+    setCurrentOrder((prev) => ({ ...prev, [name]: Number(value) }));
+  };
+
+  const handleOnSizeClick = (index, size) => {
+    setActiveSize(index);
+    setCurrentOrder((prev) => ({ ...prev, size }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addToCart(addToCartBtn);
+    e.currentTarget.reset();
   };
 
   return (
@@ -160,8 +178,10 @@ const Product = () => {
                           <li
                             key={index}
                             role="button"
-                            className={isActive === index ? "active" : ""}
-                            onClick={() => setActive(index)}
+                            className={isActiveSize === index ? "active" : ""}
+                            onClick={() => {
+                              handleOnSizeClick(index, item.size);
+                            }}
                           >
                             {item.size}
                           </li>
@@ -169,35 +189,43 @@ const Product = () => {
                       })}
                     </ul>
 
-                    <span className="font-extrabold text-global-color-3">
-                      {product?.prices.map((item, index) =>
-                        index === isActive ? `$${item.cost}` : null
+                    <span className="font-black text-global-color-3 inline-block py-2">
+                      {product?.prices.map(
+                        (item, index) =>
+                          isActiveSize === index && `$${item.cost}`
                       )}
                     </span>
                   </>
                 )}
 
                 <hr />
-                <div className="flex gap-x-5 my-5">
+                <form
+                  method="POST"
+                  onSubmit={handleSubmit}
+                  className="flex gap-x-5 my-3"
+                >
                   <input
                     type="number"
+                    name="quantity"
                     placeholder="1"
                     min="1"
                     step="1"
                     inputMode="numeric"
-                    className="text-center w-14 border "
+                    className="text-center w-14 border"
+                    onChange={handleQuantityChange}
                   />
                   <button
                     className="btn"
+                    ref={addToCartBtn}
+                    type="submit"
                     disabled={
-                      isActive === null &&
-                      product?.productType === "Accessories" &&
-                      true
+                      isActiveSize === null &&
+                      product?.productType === "Accessories"
                     }
                   >
                     Add to cart
                   </button>
-                </div>
+                </form>
                 <hr />
 
                 <div className="flex gap-x-4">
@@ -212,13 +240,14 @@ const Product = () => {
               </div>
             </div>
 
+            {/* Product tabs */}
             <Box sx={{ width: "100%" }}>
               <Box
                 sx={{ borderTop: 1, borderBottom: 1, borderColor: "divider" }}
               >
                 <StyledTabs
                   value={tabContent}
-                  onChange={handleChange}
+                  onChange={handleTabChange}
                   aria-label={"description reviews "}
                 >
                   <Tab label="Description" {...a11yProps(0)} />
@@ -275,7 +304,6 @@ const Product = () => {
                         the next time I comment.
                       </label>
                     </div>
-
                     <div>
                       <button className="btn">Submit</button>
                     </div>
@@ -300,6 +328,7 @@ const Product = () => {
               )}
             </Box>
 
+            {/* Related products */}
             <div className="mt-10">
               <h3 className="text-3xl  md:text-5xl">Related Products</h3>
               <ul className="grid grid-cols-2 md:grid-cols-4 gap-5 my-5">

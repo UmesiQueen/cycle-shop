@@ -1,74 +1,105 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 
-const defaultOrderState = {
-  // orderId:0,
-  // userId:0,
-  // productId: 0,
-  quantity: 1,
-};
+// const defaultOrderState = {
+//   // orderId:0,
+//   // userId:0,
+// };
 
 const defaultCartItems = [
   {
     productId: 1,
+    type: "Accessories",
     sizes: [
-      { size: "xl", quantity: 2 },
-      { size: "m", quantity: 3 },
+      { size: "xl", quantity: 2, cost: "40.00" },
+      { size: "m", quantity: 3, cost: "35.00" },
     ],
   },
   {
     productId: 13,
+    type: "Bicycles",
     quantity: 2,
+    cost: "350.00",
   },
 ];
 
 export const CartItemsContext = createContext();
 
 const CartContext = ({ children }) => {
-  const [currentOrder, setCurrentOrder] = useState(defaultOrderState);
+  const [newOrder, setNewOrder] = useState();
   const [cartItems, setCartItems] = useState(defaultCartItems);
 
-  useEffect(() => {
-    console.log(cartItems, "cart Items");
-  }, [cartItems]);
+  function addToCart() {
+    const newCartItems =
+      newOrder.type === "Accessories"
+        ? updateOrInsertAccessoryOrder(cartItems, newOrder)
+        : updateOrInsertBicycleOrder(cartItems, newOrder);
 
-  //   FIXME: Carter for all product cases
-  function addToCart(addToCartBtn) {
-    addToCartBtn.current.innerHTML = "Adding to Cart...";
-    addToCartBtn.current.disabled = true;
-
-    const newCartItems = updateOrInsert();
     setCartItems(newCartItems);
-
-    setCurrentOrder((prev) => ({ ...prev, quantity: 1 })); //set quantity to default 1
-
-    setTimeout(() => {
-      addToCartBtn.current.innerHTML = "Add to Cart";
-      addToCartBtn.current.disabled = false;
-    }, 300);
-  }
-
-  function updateOrInsert() {
-    if (cartItems !== null) {
-      const productExists = cartItems.findIndex(
-        (prev) => prev.productId === currentOrder.productId
-      );
-
-      if (productExists !== -1) {
-        cartItems[productExists].quantity += currentOrder.quantity;
-        return [...cartItems];
-      }
-
-      return [...cartItems, currentOrder];
-    }
-
-    return [currentOrder];
   }
 
   return (
-    <CartItemsContext.Provider value={{ setCurrentOrder, addToCart }}>
+    <CartItemsContext.Provider value={{ setNewOrder, addToCart }}>
       {children}
     </CartItemsContext.Provider>
   );
 };
 
 export default CartContext;
+
+function updateOrInsertBicycleOrder(cartItems, newOrder) {
+  if (cartItems.length > 0) {
+    // check if newOrder already exists in cart
+    const prevOrderIndex = cartItems.findIndex(
+      (prev) => prev.productId === newOrder.productId
+    );
+
+    if (prevOrderIndex !== -1) {
+      // if newOrder exists, increase quantity by newOrder value
+      cartItems[prevOrderIndex].quantity += newOrder.quantity;
+      return [...cartItems];
+    }
+    // push newOrder into cartItems, if newOrder does not exist
+    cartItems.push(newOrder);
+    return [...cartItems];
+  }
+  // if array is empty, add new cart item
+  return [newOrder];
+}
+
+function updateOrInsertAccessoryOrder(cartItems, newOrder) {
+  const { productId, type, size, quantity, cost } = newOrder;
+
+  //check that cart is not empty
+  if (cartItems.length > 0) {
+    const prevOrderIndex = cartItems.findIndex(
+      (prev) => prev.productId === productId
+    );
+
+    // check if newOrder already exists in cart
+    if (prevOrderIndex !== -1) {
+      const prevOrder = cartItems[prevOrderIndex];
+
+      const prevSizeIndex = prevOrder.sizes.findIndex(
+        (item) => item.size === size
+      );
+
+      if (prevSizeIndex !== -1) {
+        // update quantity if the newOrder size already exists in cart
+        prevOrder.sizes[prevSizeIndex].quantity += quantity;
+        return [...cartItems];
+      }
+
+      // update cartItem with new size, if it doesn't already exists in cart
+      prevOrder.sizes.push({ size, quantity, cost });
+      return [...cartItems];
+    }
+
+    // insert new cart item if it doesn't already exist
+    return [
+      ...cartItems,
+      { productId, type, sizes: [{ size, quantity, cost }] },
+    ];
+  }
+  // if array is empty, add new cart item
+  return [{ productId, type, sizes: [{ size, quantity, cost }] }];
+}

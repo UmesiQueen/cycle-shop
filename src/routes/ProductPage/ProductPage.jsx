@@ -65,13 +65,19 @@ const a11yProps = (index) => {
   };
 };
 
+const defaultActiveSizeState = {
+  index: -1,
+  size: "",
+  cost: "",
+};
+
 const Product = () => {
   const { productName } = useParams();
   const navigate = useNavigate();
-  const { setCurrentOrder, addToCart } = useContext(CartItemsContext);
+  const { setNewOrder, addToCart } = useContext(CartItemsContext);
   const [product, setProduct] = useState();
   const [tabContent, setTabContent] = useState(0);
-  const [isActiveSize, setActiveSize] = useState(null);
+  const [activeSize, setActiveSize] = useState(defaultActiveSizeState);
   const addToCartBtn = useRef();
 
   useEffect(() => {
@@ -88,7 +94,13 @@ const Product = () => {
     if (data.length > 0) setProduct(data[0]);
     else navigate("/404");
 
-    setCurrentOrder((prev) => ({ ...prev, productId: data[0].productId }));
+    setNewOrder(() => ({
+      productId: data[0].productId,
+      type: data[0].productType,
+      quantity: 1,
+      cost: data[0]?.price,
+    }));
+    setActiveSize(defaultActiveSizeState); // reset to default values
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productName]);
@@ -97,20 +109,37 @@ const Product = () => {
     setTabContent(newValue);
   };
 
-  const handleQuantityChange = (event) => {
-    const { name, value } = event.currentTarget;
-    setCurrentOrder((prev) => ({ ...prev, [name]: Number(value) }));
+  const handleOnChange = (event) => {
+    const { value } = event.currentTarget;
+    setNewOrder((prev) => ({ ...prev, quantity: Number(value) }));
   };
 
-  const handleOnSizeClick = (index, size) => {
-    setActiveSize(index);
-    setCurrentOrder((prev) => ({ ...prev, size }));
+  const handleSizeOnClick = (index, size, cost) => {
+    setActiveSize({
+      index,
+      size,
+      cost,
+    });
+
+    setNewOrder((prev) => ({ ...prev, size, cost }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addToCart(addToCartBtn);
-    e.currentTarget.reset();
+    const form = e.currentTarget;
+
+    addToCartBtn.current.innerHTML = "Adding to Cart...";
+    addToCartBtn.current.disabled = true;
+
+    setTimeout(() => {
+      addToCart();
+
+      addToCartBtn.current.innerHTML = "Add to Cart";
+      addToCartBtn.current.disabled = false;
+
+      setNewOrder((prev) => ({ ...prev, quantity: 1 }));
+      form.reset();
+    }, 300);
   };
 
   return (
@@ -178,9 +207,11 @@ const Product = () => {
                           <li
                             key={index}
                             role="button"
-                            className={isActiveSize === index ? "active" : ""}
+                            className={
+                              activeSize.index === index ? "active" : ""
+                            }
                             onClick={() => {
-                              handleOnSizeClick(index, item.size);
+                              handleSizeOnClick(index, item.size, item.cost);
                             }}
                           >
                             {item.size}
@@ -190,10 +221,7 @@ const Product = () => {
                     </ul>
 
                     <span className="font-black text-global-color-3 inline-block py-2">
-                      {product?.prices.map(
-                        (item, index) =>
-                          isActiveSize === index && `$${item.cost}`
-                      )}
+                      {activeSize.index >= 0 ? `$${activeSize.cost}` : ""}
                     </span>
                   </>
                 )}
@@ -212,14 +240,14 @@ const Product = () => {
                     step="1"
                     inputMode="numeric"
                     className="text-center w-14 border"
-                    onChange={handleQuantityChange}
+                    onChange={handleOnChange}
                   />
                   <button
                     className="btn"
                     ref={addToCartBtn}
                     type="submit"
                     disabled={
-                      isActiveSize === null &&
+                      activeSize.index < 0 &&
                       product?.productType === "Accessories"
                     }
                   >

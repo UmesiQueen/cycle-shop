@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 // const defaultOrderState = {
 //   // orderId:0,
@@ -27,6 +27,11 @@ export const CartItemsContext = createContext();
 const CartContext = ({ children }) => {
   const [newOrder, setNewOrder] = useState();
   const [cartItems, setCartItems] = useState(defaultCartItems);
+  const [cartTotal, setCartTotal] = useState(0);
+
+  useEffect(() => {
+    setCartTotal(sumCartItems(cartItems));
+  }, [cartItems]);
 
   function addToCart() {
     const newCartItems =
@@ -38,7 +43,9 @@ const CartContext = ({ children }) => {
   }
 
   return (
-    <CartItemsContext.Provider value={{ setNewOrder, addToCart }}>
+    <CartItemsContext.Provider
+      value={{ setNewOrder, addToCart, cartItems, cartTotal }}
+    >
       {children}
     </CartItemsContext.Provider>
   );
@@ -102,4 +109,22 @@ function updateOrInsertAccessoryOrder(cartItems, newOrder) {
   }
   // if array is empty, add new cart item
   return [{ productId, type, sizes: [{ size, quantity, cost }] }];
+}
+
+function sumCartItems(cartItems) {
+  let cost = 0;
+
+  if (cartItems.length > 0) {
+    cartItems.map((order) => {
+      order.type === "Accessories"
+        ? order.sizes.map((item) => {
+            cost += Number(item.quantity) * Number(item.cost);
+            return cost;
+          })
+        : (cost += Number(order.quantity) * Number(order.cost));
+
+      return cost;
+    });
+  }
+  return cost;
 }

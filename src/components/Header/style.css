@@ -14,7 +14,7 @@ header {
   border-bottom-color: var(--global-color-7);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   nav ul {
     width: 100%;
     background-color: var(--global-color-5);

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-import Header from "./components/Header/Navbar";
-import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/index";
+import Footer from "./components/Footer/index";
 import AppContext from "./hooks/AppContext";
 
 const App = () => {

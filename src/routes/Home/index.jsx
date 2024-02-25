@@ -4,9 +4,10 @@ import Icon from "@mdi/react";
 import { mdiBullseye } from "@mdi/js";
 
 import "./style.css";
-import ProductCard from "../../components/ProductCard/ProductCard";
+import ProductCard from "../../components/ProductCard/index";
 import { productData } from "../../assets/data/products";
-import Extras from "../../components/Extras/Extras";
+import Extras from "../../components/Extras/index";
+
 const Home = () => {
   return (
     <>

@@ -11,7 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 
 import { productData } from "../../assets/data/products";
-import ProductCard from "../../components/ProductCard/ProductCard";
+import ProductCard from "../../components/ProductCard/index";
 import { CartItemsContext } from "../../hooks/CartContext";
 import "./style.css";
 

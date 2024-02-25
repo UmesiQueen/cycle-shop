@@ -4,7 +4,7 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 
 import "./style.css";
 import { productData } from "../../assets/data/products";
-import ProductCard from "../../components/ProductCard/ProductCard";
+import ProductCard from "../../components/ProductCard/index";
 
 const ProductCategory = () => {
   const [data, setData] = useState([]);

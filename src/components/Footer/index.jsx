@@ -1,11 +1,11 @@
 import React from "react";
-
-import "./style.css";
-import { Logo } from "../../assets/icons/index";
 import FacebookRoundedIcon from "@mui/icons-material/FacebookRounded";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+
+import "./style.css";
+import { Logo } from "../../assets/icons/index";
 
 const Footer = () => {
   return (

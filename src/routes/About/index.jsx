@@ -4,7 +4,7 @@ import Icon from "@mdi/react";
 import { mdiPlayCircleOutline } from "@mdi/js";
 
 import "./style.css";
-import Extras from "../../components/Extras/Extras";
+import Extras from "../../components/Extras/index";
 
 const About = () => {
   return (

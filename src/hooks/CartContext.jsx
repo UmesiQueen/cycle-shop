@@ -9,10 +9,16 @@ const defaultCartItems = [
   {
     productId: 1,
     type: "Accessories",
-    sizes: [
-      { size: "xl", quantity: 2, cost: "40.00" },
-      { size: "m", quantity: 3, cost: "35.00" },
-    ],
+    size: "xl",
+    quantity: 2,
+    cost: "40.00",
+  },
+  {
+    productId: 1,
+    type: "Accessories",
+    size: "m",
+    quantity: 2,
+    cost: "35.00",
   },
   {
     productId: 13,
@@ -28,18 +34,65 @@ const CartContext = ({ children }) => {
   const [newOrder, setNewOrder] = useState();
   const [cartItems, setCartItems] = useState(defaultCartItems);
   const [cartTotal, setCartTotal] = useState(0);
+  const [isClicked, setClickedState] = useState(false);
 
   useEffect(() => {
-    setCartTotal(sumCartItems(cartItems));
-  }, [cartItems]);
+    setCartTotal(sumCartItems());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (isClicked) {
+      setCartTotal(sumCartItems());
+      setClickedState(!isClicked);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isClicked]);
 
   function addToCart() {
-    const newCartItems =
-      newOrder.type === "Accessories"
-        ? updateOrInsertAccessoryOrder(cartItems, newOrder)
-        : updateOrInsertBicycleOrder(cartItems, newOrder);
-
+    setClickedState(true);
+    const newCartItems = updateOrInsertNewOrder();
     setCartItems(newCartItems);
+  }
+
+  function updateOrInsertNewOrder() {
+    const { productId, type, size, quantity } = newOrder;
+
+    if (cartItems.length > 0) {
+      let prevOrderIndex;
+
+      if (type === "Accessories") {
+        prevOrderIndex = cartItems.findIndex(
+          (prev) => prev.productId === productId && prev.size === size
+        );
+      } else {
+        prevOrderIndex = cartItems.findIndex(
+          (prev) => prev.productId === productId
+        );
+      }
+
+      if (prevOrderIndex !== -1) {
+        // if newOrder id exists, increase quantity by newOrder value
+        cartItems[prevOrderIndex].quantity += quantity;
+        return cartItems;
+      }
+
+      // if newOrder does not exist, add newOrder to cart
+      return [...cartItems, newOrder];
+    }
+    // if array is empty, add newOrder to cart
+    return [newOrder];
+  }
+
+  function sumCartItems() {
+    let cost = 0;
+    if (cartItems.length > 0) {
+      cartItems.map(
+        (cartItem) =>
+          (cost += Number(cartItem.quantity) * Number(cartItem.cost))
+      );
+      return cost;
+    }
   }
 
   return (
@@ -52,79 +105,3 @@ const CartContext = ({ children }) => {
 };
 
 export default CartContext;
-
-function updateOrInsertBicycleOrder(cartItems, newOrder) {
-  if (cartItems.length > 0) {
-    // check if newOrder already exists in cart
-    const prevOrderIndex = cartItems.findIndex(
-      (prev) => prev.productId === newOrder.productId
-    );
-
-    if (prevOrderIndex !== -1) {
-      // if newOrder exists, increase quantity by newOrder value
-      cartItems[prevOrderIndex].quantity += newOrder.quantity;
-      return [...cartItems];
-    }
-    // push newOrder into cartItems, if newOrder does not exist
-    cartItems.push(newOrder);
-    return [...cartItems];
-  }
-  // if array is empty, add new cart item
-  return [newOrder];
-}
-
-function updateOrInsertAccessoryOrder(cartItems, newOrder) {
-  const { productId, type, size, quantity, cost } = newOrder;
-
-  //check that cart is not empty
-  if (cartItems.length > 0) {
-    const prevOrderIndex = cartItems.findIndex(
-      (prev) => prev.productId === productId
-    );
-
-    // check if newOrder already exists in cart
-    if (prevOrderIndex !== -1) {
-      const prevOrder = cartItems[prevOrderIndex];
-
-      const prevSizeIndex = prevOrder.sizes.findIndex(
-        (item) => item.size === size
-      );
-
-      if (prevSizeIndex !== -1) {
-        // update quantity if the newOrder size already exists in cart
-        prevOrder.sizes[prevSizeIndex].quantity += quantity;
-        return [...cartItems];
-      }
-
-      // update cartItem with new size, if it doesn't already exists in cart
-      prevOrder.sizes.push({ size, quantity, cost });
-      return [...cartItems];
-    }
-
-    // insert new cart item if it doesn't already exist
-    return [
-      ...cartItems,
-      { productId, type, sizes: [{ size, quantity, cost }] },
-    ];
-  }
-  // if array is empty, add new cart item
-  return [{ productId, type, sizes: [{ size, quantity, cost }] }];
-}
-
-function sumCartItems(cartItems) {
-  let cost = 0;
-
-  if (cartItems.length > 0) {
-    cartItems.map((order) => {
-      order.type === "Accessories"
-        ? order.sizes.map((item) => {
-            cost += Number(item.quantity) * Number(item.cost);
-            return cost;
-          })
-        : (cost += Number(order.quantity) * Number(order.cost));
-
-      return cost;
-    });
-  }
-  return cost;
-}

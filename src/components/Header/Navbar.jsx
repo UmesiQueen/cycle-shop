@@ -30,6 +30,9 @@ const Header = () => {
   const menuRef = useRef();
   const [isOpen, setOpen] = useState(false);
   const { cartTotal, cartItems } = useContext(CartItemsContext);
+  const filteredCartItems = [
+    ...new Set([...cartItems.map((cartItem) => cartItem.productId)]),
+  ];
 
   return (
     <header>
@@ -73,7 +76,11 @@ const Header = () => {
           <span className=" cart-total font-black ">${cartTotal}</span>
           <ThemeProvider theme={theme}>
             <IconButton aria-label="cart" color="primary">
-              <Badge badgeContent={cartItems.length} color="primary" showZero>
+              <Badge
+                badgeContent={filteredCartItems.length}
+                color="primary"
+                showZero
+              >
                 <ShoppingCartIcon color="primary" />
               </Badge>
             </IconButton>

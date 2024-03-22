@@ -1,19 +1,20 @@
-import { createContext, useEffect } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 
 import CartContext from "./CartContext";
 
-export const GlobalContext = createContext();
+export const GlobalContext = React.createContext();
 
 const AppContext = ({ children }) => {
   const { pathname } = useLocation();
+  const [drawerState, setDrawerState] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (window.scrollY !== 0) window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname]);
 
   return (
-    <GlobalContext.Provider value={{}}>
+    <GlobalContext.Provider value={{ drawerState, setDrawerState }}>
       <CartContext>{children}</CartContext>
     </GlobalContext.Provider>
   );

@@ -10,6 +10,7 @@ import classNames from "classnames";
 import "./style.css";
 import { Logo } from "../../assets/icons/index";
 import { CartItemsContext } from "../../hooks/CartContext";
+import { GlobalContext } from "../../hooks/AppContext";
 
 const theme = createTheme({
   palette: {
@@ -30,6 +31,7 @@ const Header = () => {
   const menuRef = useRef();
   const [isOpen, setOpen] = useState(false);
   const { cartTotal, cartItems } = useContext(CartItemsContext);
+  const { setDrawerState } = useContext(GlobalContext);
   const filteredCartItems = [
     ...new Set([...cartItems.map((cartItem) => cartItem.productId)]),
   ];
@@ -72,19 +74,21 @@ const Header = () => {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-x-1 md:w-36 justify-end">
-          <span className=" cart-total font-black ">${cartTotal}</span>
-          <ThemeProvider theme={theme}>
-            <IconButton aria-label="cart" color="primary">
-              <Badge
-                badgeContent={filteredCartItems.length}
-                color="primary"
-                showZero
-              >
-                <ShoppingCartIcon color="primary" />
-              </Badge>
-            </IconButton>
-          </ThemeProvider>
+        <div className="flex items-center gap-x-1 md:w-36 justify-end cursor-pointer">
+          <div onClick={() => setDrawerState(true)} className="space-x-1">
+            <span className=" cart-total font-black ">${cartTotal}</span>
+            <ThemeProvider theme={theme}>
+              <IconButton aria-label="cart" color="primary">
+                <Badge
+                  badgeContent={filteredCartItems.length}
+                  color="primary"
+                  showZero
+                >
+                  <ShoppingCartIcon color="primary" />
+                </Badge>
+              </IconButton>
+            </ThemeProvider>
+          </div>
           <div className="md:hidden">
             <Hamburger
               label="Show menu"

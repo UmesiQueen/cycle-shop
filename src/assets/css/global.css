@@ -32,7 +32,8 @@ html {
 body {
   font-family: "DM_Sans", sans-serif;
   font-size: 15px;
-  color: var(--global-color-5);
+  /* color: var(--global-color-5); */
+  background-color: var(--global-color-4);
   position: relative;
 }
 

@@ -58,7 +58,7 @@ const Home = () => {
         </section>
 
         {/* New Arrivals */}
-        <section id="new-arrivals" className="products">
+        <section id="new-arrivals" className="products bg-white">
           <div className="__container">
             <div className="p-3 md:p-0 ">
               <h2 className="text-black text-center mb-14">New Arrivals</h2>
@@ -137,7 +137,7 @@ const Home = () => {
         </section>
 
         {/* Explore Accessories */}
-        <section id="accessories" className="products">
+        <section id="accessories" className="products bg-white">
           <div className="__container">
             <div className="p-3 md:p-0 ">
               <h2 className="text-black text-center mb-14">

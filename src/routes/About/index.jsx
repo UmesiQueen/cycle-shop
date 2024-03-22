@@ -32,12 +32,12 @@ const About = () => {
         </style>
       </Helmet>
 
-      <div id="about">
+      <div id="about" className="bg-white">
         <section className="about-landing background-image ">
           <div className="background-overlay">
             <div className="__container">
               <div className="px-[5%]">
-                <h1 className="text-center mb-14">Who We Are</h1>
+                <h1 className="text-center mb-14 text-white">Who We Are</h1>
                 <div className="background-image">
                   <div className="background-overlay p-10 md:p-16 flex flex-col justify-end">
                     <span className="mb-4">

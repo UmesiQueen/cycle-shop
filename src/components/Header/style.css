@@ -1,5 +1,6 @@
 header {
   background-color: var(--global-color-0);
+  color: var(--global-color-5);
 }
 
 .pending {

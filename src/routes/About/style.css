@@ -30,6 +30,7 @@
 
 .explore-stories ._grid-container {
   min-height: 500px;
+  color: var(--global-color-5);
 }
 
 .explore-stories ._grid-container .__grid-item > div:hover {

@@ -2,6 +2,7 @@
 #landing {
   height: 100vh;
   background-image: url("../../assets/images/bgImage/bike-hero.jpg");
+  color: var(--global-color-5);
 }
 
 #landing .__image-overlay {
@@ -60,6 +61,7 @@
 #discover-collection > div {
   min-height: 400px;
   display: flex;
+  color: var(--global-color-5);
 }
 
 .mountain-bikes {
@@ -84,6 +86,8 @@
 /* Why Kyro  */
 #whyKyro {
   padding: 120px 0 0;
+  color: var(--global-color-5);
+  background-color: var(--global-color-5);
 }
 
 #whyKyro .__grid-container {

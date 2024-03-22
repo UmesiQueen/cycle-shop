@@ -21,7 +21,7 @@ const ProductCategory = () => {
   }, [setData, productType, navigate]);
 
   return (
-    <div className="text-black md:bg-global-color-4">
+    <div className="text-black bg-white md:bg-global-color-4">
       <div className="__container">
         <section className="bg-global-color-5 md:px-10 py-5 my-10 md:my-20">
           <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">

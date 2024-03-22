@@ -34,7 +34,7 @@ const Contact = () => {
       <div>
         <section className="contact-landing">
           <div className="background-overlay flex justify-center items-center">
-            <h1 className="-mb-6">Contact Us</h1>
+            <h1 className="-mb-6 text-white">Contact Us</h1>
           </div>
         </section>
 

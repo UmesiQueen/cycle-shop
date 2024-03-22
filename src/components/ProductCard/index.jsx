@@ -66,7 +66,7 @@ const ProductCard = ({
     if (productType === "Accessories") {
       if (isActive !== -1) {
         const { cost, size } = prices.filter(
-          (item, index) => isActive === index
+          (_, index) => isActive === index
         )[0];
 
         return setNewOrder({ ...defaultOrderState, cost, size });

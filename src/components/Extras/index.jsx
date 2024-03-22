@@ -23,7 +23,7 @@ const Extras = () => {
                     color="white"
                   />
                 </span>
-                <h3>Watch Full Video</h3>
+                <h3 className="text-white">Watch Full Video</h3>
               </div>
             </div>
             <div className="flex flex-col items-center text-center text-black mt-12 md:flex-row md:justify-between md:text-left">
@@ -46,7 +46,7 @@ const Extras = () => {
       {/* The All New */}
       <section id="all-new" className="background-image">
         <div className=" __container background-overlay">
-          <div className="text-center space-y-4 px-4 md:px-14 py-10 md:py-0">
+          <div className="text-center space-y-4 px-4 md:px-14 py-10 md:py-0 text-white">
             <h3>The All New</h3>
             <h2>Kryo X26 MTB Is Here</h2>
             <p className="font-medium">

@@ -151,7 +151,7 @@ const Product = () => {
       </Helmet>
       <div className="  md:bg-global-color-4 text-black">
         <div className="__container">
-          <section className="bg-global-color-5 md:p-20 my-10 md:my-20">
+          <section className="bg-global-color-5 md:p-20 my-4 md:my-12 lg:my-20">
             <div className="lg:flex gap-x-10 mb-16 ">
               <div className=" relative grow basis-1/2 w-full">
                 <img

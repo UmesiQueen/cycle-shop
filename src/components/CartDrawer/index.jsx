@@ -8,6 +8,7 @@ import {
   ListItemIcon,
 } from "@mui/material";
 import { DeleteOutlined, ClearRounded } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 import { CartItemsContext } from "../../hooks/CartContext";
 import { GlobalContext } from "../../hooks/AppContext";
@@ -95,8 +96,12 @@ const CartDrawer = () => {
           </p>
           <Divider />
           <div className="flex flex-col gap-5 px-6 pb-5 pt-1">
-            <button className="btn">VIEW CART</button>
-            <button className="btn">CHECKOUT</button>
+            <Link to="cart" onClick={() => setDrawerState(false)}>
+              <button className="btn w-full">VIEW CART</button>
+            </Link>
+            <Link to="checkout" onClick={() => setDrawerState(false)}>
+              <button className="btn w-full">CHECKOUT</button>
+            </Link>
           </div>
         </div>
       </Box>

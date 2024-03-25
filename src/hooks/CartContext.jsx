@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { productData } from "../assets/data/products";
 
 // const defaultOrderState = {
 //   // orderId:0,
@@ -35,16 +36,19 @@ const CartContext = ({ children }) => {
   const [cartItems, setCartItems] = useState(defaultCartItems);
   const [cartTotal, setCartTotal] = useState(0);
   const [isClicked, setClickedState] = useState(false);
+  const [cartItemsData, setCartItemsData] = useState([]);
 
   useEffect(() => {
-    setCartTotal(sumCartItems());
+    setCartTotal(sumCartItems);
+    setCartItemsData(filterProductData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (isClicked) {
-      setCartTotal(sumCartItems());
+      setCartTotal(sumCartItems);
       setClickedState(!isClicked);
+      setCartItemsData(filterProductData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isClicked]);
@@ -58,7 +62,7 @@ const CartContext = ({ children }) => {
   function updateOrInsertNewOrder() {
     const { productId, type, size, quantity } = newOrder;
 
-    if (cartItems.length > 0) {
+    if (cartItems.length) {
       let prevOrderIndex;
 
       if (type === "Accessories") {
@@ -86,18 +90,41 @@ const CartContext = ({ children }) => {
 
   function sumCartItems() {
     let cost = 0;
-    if (cartItems.length > 0) {
+    if (cartItems.length) {
       cartItems.map(
         (cartItem) =>
           (cost += Number(cartItem.quantity) * Number(cartItem.cost))
       );
       return cost;
     }
+    return cost;
+  }
+
+  function filterProductData() {
+    if (cartItems.length) {
+      return cartItems.map(
+        (cartItem) =>
+          ({
+            ...productData
+              .filter((data) => data.productId === cartItem.productId)
+              .map((data) => ({
+                productId: data.productId,
+                name: cartItem.size
+                  ? `${data.name} - ${cartItem.size.toUpperCase()}`
+                  : data.name,
+                src: data.src,
+                quantity: cartItem.quantity,
+                cost: cartItem.cost,
+              })),
+          }[0])
+      );
+    }
+    return [];
   }
 
   return (
     <CartItemsContext.Provider
-      value={{ setNewOrder, addToCart, cartItems, cartTotal }}
+      value={{ setNewOrder, addToCart, cartItems, cartTotal, cartItemsData }}
     >
       {children}
     </CartItemsContext.Provider>

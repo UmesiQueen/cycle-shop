@@ -12,26 +12,10 @@ import { Link } from "react-router-dom";
 
 import { CartItemsContext } from "../../hooks/CartContext";
 import { GlobalContext } from "../../hooks/AppContext";
-import { productData } from "../../assets/data/products";
 
 const CartDrawer = () => {
-  const { cartItems, cartTotal } = React.useContext(CartItemsContext);
+  const { cartTotal, cartItemsData } = React.useContext(CartItemsContext);
   const { drawerState, setDrawerState } = React.useContext(GlobalContext);
-
-  const data = cartItems.map((cartItem) => {
-    return {
-      ...productData
-        .filter((data) => data.productId === cartItem.productId)
-        .map((data) => ({
-          productId: data.productId,
-          name: data.name,
-          src: data.src,
-          size: cartItem.size,
-          quantity: cartItem.quantity,
-          cost: cartItem.cost,
-        })),
-    }[0];
-  });
 
   return (
     <Drawer
@@ -54,7 +38,7 @@ const CartDrawer = () => {
         </div>
         <Divider />
         <List className="!px-6 !pt-4">
-          {data.map((cartItem, index) => (
+          {cartItemsData.map((cartItem, index) => (
             <ListItem
               key={index}
               className=" border-b !px-0 !py-3 text-sm md:text-base "
@@ -68,12 +52,7 @@ const CartDrawer = () => {
                 />
               </ListItemIcon>
               <div className="ml-4">
-                <h5>
-                  {cartItem.name}{" "}
-                  <span className="uppercase" aria-label="size">
-                    {cartItem.size ? "- " + cartItem.size : ""}
-                  </span>
-                </h5>
+                <h5>{cartItem.name}</h5>
 
                 <p className="text-global-color-3 flex items-center">
                   <span className="font-semibold ">{cartItem.quantity}</span>

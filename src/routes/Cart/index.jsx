@@ -54,6 +54,17 @@ const Cart = () => {
       // do stuff
     };
 
+    const getURL = (name) => {
+      const regex = new RegExp("^[a-zA-Z0-9]*$");
+      const productURL = name
+        .split(" ")
+        .filter((item) => item.match(regex))
+        .join("-")
+        .toLowerCase();
+
+      return `/product/${productURL}`;
+    };
+
     return (
       <>
         {matches ? (
@@ -70,49 +81,48 @@ const Cart = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {cartItemsData.map((row) => (
-                  <TableRow key={row.name}>
-                    <StyledTableCell align="center">
-                      <button className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">
-                        <DeleteOutlined fontSize="small" />
-                      </button>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <img
-                        alt={row.name}
-                        src={row.src}
-                        width={70}
-                        height={70}
-                      />
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      {/* TODO:change link path to product name */}
-                      <Link
-                        to={"/product/kryo-x26-mtb-model-x"}
-                        className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
-                      >
-                        {row.name}
-                      </Link>
-                    </StyledTableCell>
-                    <StyledTableCell>${row.cost}</StyledTableCell>
-                    <StyledTableCell>
-                      <input
-                        type="number"
-                        name="quantity"
-                        placeholder="1"
-                        min="1"
-                        step="1"
-                        inputMode="numeric"
-                        value={row.quantity}
-                        className="text-center w-14 border h-8"
-                        onChange={handleOnChange}
-                      />
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      ${Number(row.cost) * Number(row.quantity)}
-                    </StyledTableCell>
-                  </TableRow>
-                ))}
+                {cartItemsData.map((row) => {
+                  const name = row.size
+                    ? `${row.name} - ${row.size.toUpperCase()}`
+                    : row.name;
+                  return (
+                    <TableRow key={name}>
+                      <StyledTableCell align="center">
+                        <button className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">
+                          <DeleteOutlined fontSize="small" />
+                        </button>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <img alt={name} src={row.src} width={70} height={70} />
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <Link
+                          to={getURL(row.name)}
+                          className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
+                        >
+                          {name}
+                        </Link>
+                      </StyledTableCell>
+                      <StyledTableCell>${row.cost}</StyledTableCell>
+                      <StyledTableCell>
+                        <input
+                          type="number"
+                          name="quantity"
+                          placeholder="1"
+                          min="1"
+                          step="1"
+                          inputMode="numeric"
+                          value={row.quantity}
+                          className="text-center w-14 border h-8"
+                          onChange={handleOnChange}
+                        />
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        ${Number(row.cost) * Number(row.quantity)}
+                      </StyledTableCell>
+                    </TableRow>
+                  );
+                })}
                 <TableRow>
                   <StyledTableCell colSpan={6}>
                     <form className="flex justify-between items-center">
@@ -137,57 +147,62 @@ const Cart = () => {
           </TableContainer>
         ) : (
           <>
-            {cartItemsData.map((row) => (
-              <div key={row.name} className="mb-5 shadow-md">
-                <ul className="[&>*]:flex [&>*]:justify-between [&>*]:gap-x-2  [&>*]:p-2 [&>*:not(:last-of-type)]:border-b [&>*]:border-[#ddd] [&>*>p:first-of-type]:text-[#4b4f58] [&>*>p:first-of-type]:font-semibold border border-[#ddd] ">
-                  <li>
-                    <button className=" ml-auto text-gray-300 p-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300">
-                      <DeleteOutlined fontSize="small" />
-                    </button>
-                  </li>
-                  <li>
-                    <img
-                      alt={row.name}
-                      src={row.src}
-                      width={70}
-                      height={70}
-                      className="mx-auto"
-                    />
-                  </li>
-                  <li>
-                    <p>Product:</p>
-                    <Link
-                      to={"/product/kryo-x26-mtb-model-x"}
-                      className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
-                    >
-                      {row.name}
-                    </Link>
-                  </li>
-                  <li>
-                    <p>Price:</p>
-                    <p>${row.cost}</p>
-                  </li>
-                  <li>
-                    <p>Quantity:</p>
-                    <input
-                      type="number"
-                      name="quantity"
-                      placeholder="1"
-                      min="1"
-                      step="1"
-                      inputMode="numeric"
-                      value={row.quantity}
-                      className="text-center w-14 border h-8"
-                      onChange={handleOnChange}
-                    />
-                  </li>
-                  <li>
-                    <p>Subtotal:</p>
-                    <p> ${Number(row.cost) * Number(row.quantity)}</p>
-                  </li>
-                </ul>
-              </div>
-            ))}
+            {cartItemsData.map((row) => {
+              const name = row.size
+                ? `${row.name} - ${row.size.toUpperCase()}`
+                : row.name;
+              return (
+                <div key={name} className="mb-5 shadow-md">
+                  <ul className="[&>*]:flex [&>*]:justify-between [&>*]:gap-x-2  [&>*]:p-2 [&>*:not(:last-of-type)]:border-b [&>*]:border-[#ddd] [&>*>p:first-of-type]:text-[#4b4f58] [&>*>p:first-of-type]:font-semibold border border-[#ddd] ">
+                    <li>
+                      <button className=" ml-auto text-gray-300 p-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300">
+                        <DeleteOutlined fontSize="small" />
+                      </button>
+                    </li>
+                    <li>
+                      <img
+                        alt={name}
+                        src={row.src}
+                        width={70}
+                        height={70}
+                        className="mx-auto"
+                      />
+                    </li>
+                    <li>
+                      <p>Product:</p>
+                      <Link
+                        to={getURL(row.name)}
+                        className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
+                      >
+                        {name}
+                      </Link>
+                    </li>
+                    <li>
+                      <p>Price:</p>
+                      <p>${row.cost}</p>
+                    </li>
+                    <li>
+                      <p>Quantity:</p>
+                      <input
+                        type="number"
+                        name="quantity"
+                        placeholder="1"
+                        min="1"
+                        step="1"
+                        inputMode="numeric"
+                        value={row.quantity}
+                        className="text-center w-14 border h-8"
+                        onChange={handleOnChange}
+                      />
+                    </li>
+                    <li>
+                      <p>Subtotal:</p>
+                      <p> ${Number(row.cost) * Number(row.quantity)}</p>
+                    </li>
+                  </ul>
+                </div>
+              );
+            })}
 
             <form className=" flex flex-col gap-3 border border-[#ddd] p-2">
               <div className="flex flex-col gap-3">

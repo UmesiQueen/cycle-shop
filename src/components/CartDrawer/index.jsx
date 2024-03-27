@@ -52,7 +52,11 @@ const CartDrawer = () => {
                 />
               </ListItemIcon>
               <div className="ml-4">
-                <h5>{cartItem.name}</h5>
+                <h5>
+                  {cartItem.size
+                    ? `${cartItem.name} - ${cartItem.size.toUpperCase()}`
+                    : cartItem.name}
+                </h5>
 
                 <p className="text-global-color-3 flex items-center">
                   <span className="font-semibold ">{cartItem.quantity}</span>

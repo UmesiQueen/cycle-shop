@@ -109,9 +109,8 @@ const CartContext = ({ children }) => {
               .filter((data) => data.productId === cartItem.productId)
               .map((data) => ({
                 productId: data.productId,
-                name: cartItem.size
-                  ? `${data.name} - ${cartItem.size.toUpperCase()}`
-                  : data.name,
+                name: data.name,
+                size: cartItem.size,
                 src: data.src,
                 quantity: cartItem.quantity,
                 cost: cartItem.cost,

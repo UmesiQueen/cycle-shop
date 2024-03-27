@@ -247,8 +247,8 @@ const Cart = () => {
   };
 
   return (
-    <div className="__container">
-      <div className="text-black bg-global-color-5 my-4 md:my-12 lg:my-20 p-5 md:px-20 ">
+    <div className="__container bg-white  md:bg-global-color-4">
+      <div className="text-black bg-global-color-5 my-4 md:my-12 lg:my-20 md:p-5 lg:px-20 ">
         <h3 className="capitalize mb-5">Cart</h3>
         {cartItemsData.length ? (
           <CartTable />

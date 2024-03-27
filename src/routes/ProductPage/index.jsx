@@ -149,7 +149,7 @@ const Product = () => {
         <meta name="description" content="Insert gibberish here" />
         <meta name="keywords" content="insert, gibberish, here" />
       </Helmet>
-      <div className="  md:bg-global-color-4 text-black">
+      <div className=" bg-white  md:bg-global-color-4 ">
         <div className="__container">
           <section className="bg-global-color-5 md:p-20 my-4 md:my-12 lg:my-20">
             <div className="lg:flex gap-x-10 mb-16 ">

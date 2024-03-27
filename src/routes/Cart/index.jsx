@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
+  useMediaQuery,
   styled,
   Table,
   TableBody,
@@ -37,8 +38,16 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
+const styleTableCell = {
+  border: 0,
+  borderBottom: "1px #ddd solid",
+  width: "50%",
+  padding: "10px",
+};
+
 const Cart = () => {
-  const { cartItemsData } = React.useContext(CartItemsContext);
+  const { cartItemsData, cartTotal } = React.useContext(CartItemsContext);
+  const matches = useMediaQuery("(min-width:768px)");
 
   const CartTable = () => {
     const handleOnChange = (event) => {
@@ -46,77 +55,179 @@ const Cart = () => {
     };
 
     return (
-      <TableContainer sx={{ border: "1px #ddd solid" }}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell />
-              <StyledTableCell />
-              <StyledTableCell>Product</StyledTableCell>
-              <StyledTableCell>Price</StyledTableCell>
-              <StyledTableCell>Quantity</StyledTableCell>
-              <StyledTableCell>Subtotal</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+      <>
+        {matches ? (
+          <TableContainer sx={{ border: "1px #ddd solid" }}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell />
+                  <StyledTableCell />
+                  <StyledTableCell>Product</StyledTableCell>
+                  <StyledTableCell>Price</StyledTableCell>
+                  <StyledTableCell>Quantity</StyledTableCell>
+                  <StyledTableCell>Subtotal</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cartItemsData.map((row) => (
+                  <TableRow key={row.name}>
+                    <StyledTableCell align="center">
+                      <button className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">
+                        <DeleteOutlined fontSize="small" />
+                      </button>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <img
+                        alt={row.name}
+                        src={row.src}
+                        width={70}
+                        height={70}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {/* TODO:change link path to product name */}
+                      <Link
+                        to={"/product/kryo-x26-mtb-model-x"}
+                        className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
+                      >
+                        {row.name}
+                      </Link>
+                    </StyledTableCell>
+                    <StyledTableCell>${row.cost}</StyledTableCell>
+                    <StyledTableCell>
+                      <input
+                        type="number"
+                        name="quantity"
+                        placeholder="1"
+                        min="1"
+                        step="1"
+                        inputMode="numeric"
+                        value={row.quantity}
+                        className="text-center w-14 border h-8"
+                        onChange={handleOnChange}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      ${Number(row.cost) * Number(row.quantity)}
+                    </StyledTableCell>
+                  </TableRow>
+                ))}
+                <TableRow>
+                  <StyledTableCell colSpan={6}>
+                    <form className="flex justify-between items-center">
+                      <div className="flex gap-3 items-center">
+                        <input
+                          type="text"
+                          placeholder="Coupon Code"
+                          className="!w-56 h-9 font-semibold !border-[#ddd]  text-global-color-3 placeholder:text-global-color-3  "
+                        />
+                        <button className="btn w-full h-12">
+                          Apply Coupon
+                        </button>
+                      </div>
+                      <button className="btn h-10" disabled>
+                        Update Cart
+                      </button>
+                    </form>
+                  </StyledTableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <>
             {cartItemsData.map((row) => (
-              <TableRow key={row.name}>
-                <StyledTableCell align="center">
-                  <button className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">
-                    <DeleteOutlined fontSize="small" />
-                  </button>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <img alt={row.name} src={row.src} width={70} height={70} />
-                </StyledTableCell>
-                <StyledTableCell>
-                  {/* TODO:change link path to product name */}
-                  <Link
-                    to={"/product/kryo-x26-mtb-model-x"}
-                    className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
-                  >
-                    {row.name}
-                  </Link>
-                </StyledTableCell>
-                <StyledTableCell>${row.cost}</StyledTableCell>
-                <StyledTableCell>
-                  <input
-                    type="number"
-                    name="quantity"
-                    placeholder="1"
-                    min="1"
-                    step="1"
-                    inputMode="numeric"
-                    value={row.quantity}
-                    className="text-center w-14 border h-8"
-                    onChange={handleOnChange}
-                  />
-                </StyledTableCell>
-                <StyledTableCell>
-                  ${Number(row.cost) * Number(row.quantity)}
-                </StyledTableCell>
-              </TableRow>
-            ))}
-            <TableRow>
-              <StyledTableCell colSpan={6}>
-                <div className="flex justify-between items-center">
-                  <div className="flex gap-3 items-center">
-                    <input
-                      type="text"
-                      placeholder="Coupon Code"
-                      className="!w-56 h-9 font-semibold !border-[#ddd]  text-global-color-3 placeholder:text-global-color-3  "
+              <div key={row.name} className="mb-5 shadow-md">
+                <ul className="[&>*]:flex [&>*]:justify-between [&>*]:gap-x-2  [&>*]:p-2 [&>*:not(:last-of-type)]:border-b [&>*]:border-[#ddd] [&>*>p:first-of-type]:text-[#4b4f58] [&>*>p:first-of-type]:font-semibold border border-[#ddd] ">
+                  <li>
+                    <button className=" ml-auto text-gray-300 p-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300">
+                      <DeleteOutlined fontSize="small" />
+                    </button>
+                  </li>
+                  <li>
+                    <img
+                      alt={row.name}
+                      src={row.src}
+                      width={70}
+                      height={70}
+                      className="mx-auto"
                     />
-                    <button className="btn w-full h-12">Apply Coupon</button>
-                  </div>
-                  <button className="btn h-10" disabled>
-                    Update Cart
-                  </button>
-                </div>
-              </StyledTableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+                  </li>
+                  <li>
+                    <p>Product:</p>
+                    <Link
+                      to={"/product/kryo-x26-mtb-model-x"}
+                      className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
+                    >
+                      {row.name}
+                    </Link>
+                  </li>
+                  <li>
+                    <p>Price:</p>
+                    <p>${row.cost}</p>
+                  </li>
+                  <li>
+                    <p>Quantity:</p>
+                    <input
+                      type="number"
+                      name="quantity"
+                      placeholder="1"
+                      min="1"
+                      step="1"
+                      inputMode="numeric"
+                      value={row.quantity}
+                      className="text-center w-14 border h-8"
+                      onChange={handleOnChange}
+                    />
+                  </li>
+                  <li>
+                    <p>Subtotal:</p>
+                    <p> ${Number(row.cost) * Number(row.quantity)}</p>
+                  </li>
+                </ul>
+              </div>
+            ))}
+
+            <form className=" flex flex-col gap-3 border border-[#ddd] p-2">
+              <div className="flex flex-col gap-3">
+                <input
+                  type="text"
+                  placeholder="Coupon Code"
+                  className="max-w-[14rem] h-9 font-semibold !border-[#ddd]  text-global-color-3 placeholder:text-global-color-3  "
+                />
+                <button className="btn max-w-[14rem]">Apply Coupon</button>
+              </div>
+              <button className="btn max-w-[14rem] ml-auto" disabled>
+                Update Cart
+              </button>
+            </form>
+          </>
+        )}
+
+        {/* cart total */}
+        <div className="flex mt-7 mb-5">
+          <div className=" w-96 ml-auto  border border-['#ddd']">
+            <h4 className="px-4 py-2 bg-global-color-4">Cart totals</h4>
+            <hr />
+            <div className="p-4">
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell sx={styleTableCell}>Subtotal</TableCell>
+                    <TableCell sx={styleTableCell}>${cartTotal}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell sx={styleTableCell}>Total</TableCell>
+                    <TableCell sx={styleTableCell}>${cartTotal}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              <button className="btn mt-4 w-full">Proceed to checkout</button>
+            </div>
+          </div>
+        </div>
+      </>
     );
   };
 

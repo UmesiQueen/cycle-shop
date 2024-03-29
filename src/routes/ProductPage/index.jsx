@@ -88,8 +88,8 @@ const Product = () => {
     else navigate("/404");
 
     setNewOrder(() => ({
-      productId: data[0].productId,
-      type: data[0].productType,
+      productId: data[0]?.productId,
+      type: data[0]?.productType,
       quantity: 1,
       cost: data[0]?.price,
     }));

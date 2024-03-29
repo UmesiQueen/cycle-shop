@@ -45,23 +45,23 @@ const CartDrawer = () => {
             >
               <ListItemIcon>
                 <img
-                  src={cartItem.src}
-                  alt={cartItem.name}
+                  src={cartItem?.src}
+                  alt={cartItem?.name}
                   width={65}
                   height={65}
                 />
               </ListItemIcon>
               <div className="ml-4">
                 <h5>
-                  {cartItem.size
-                    ? `${cartItem.name} - ${cartItem.size.toUpperCase()}`
-                    : cartItem.name}
+                  {cartItem?.size
+                    ? `${cartItem?.name} - ${cartItem?.size.toUpperCase()}`
+                    : cartItem?.name}
                 </h5>
 
                 <p className="text-global-color-3 flex items-center">
-                  <span className="font-semibold ">{cartItem.quantity}</span>
+                  <span className="font-semibold ">{cartItem?.quantity}</span>
                   <span className="font-semibold px-1 text-xs ">x</span>
-                  <span>${cartItem.cost}</span>
+                  <span>${cartItem?.cost}</span>
                 </p>
               </div>
               <button className=" ml-auto text-gray-300 py-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">

@@ -54,17 +54,6 @@ const Cart = () => {
       // do stuff
     };
 
-    const getURL = (name) => {
-      const regex = new RegExp("^[a-zA-Z0-9]*$");
-      const productURL = name
-        .split(" ")
-        .filter((item) => item.match(regex))
-        .join("-")
-        .toLowerCase();
-
-      return `/product/${productURL}`;
-    };
-
     return (
       <>
         {matches ? (
@@ -97,7 +86,7 @@ const Cart = () => {
                       </StyledTableCell>
                       <StyledTableCell>
                         <Link
-                          to={getURL(row.name)}
+                          to={row.slug}
                           className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
                         >
                           {name}
@@ -171,7 +160,7 @@ const Cart = () => {
                     <li>
                       <p>Product:</p>
                       <Link
-                        to={getURL(row.name)}
+                        to={row.slug}
                         className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
                       >
                         {name}

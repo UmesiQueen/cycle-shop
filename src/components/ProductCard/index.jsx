@@ -11,6 +11,7 @@ const ProductCard = ({
   productType,
   productId,
   name,
+  slug,
   src,
   price,
   alt,
@@ -20,13 +21,6 @@ const ProductCard = ({
   const { setNewOrder, addToCart } = useContext(CartItemsContext);
   const [isActive, setActive] = useState(-1);
   const [inActive, setInActive] = useState([]);
-
-  const regex = new RegExp("^[a-zA-Z0-9]*$");
-  const productName = name
-    .split(" ")
-    .filter((item) => item.match(regex))
-    .join("-")
-    .toLowerCase();
 
   const handleOnClick = (e) => {
     if (productType === "Accessories") {
@@ -78,7 +72,7 @@ const ProductCard = ({
   return (
     <div className=" w-fit h-full flex flex-col">
       <div className="relative mb-3" onMouseEnter={setDefaultOrderState}>
-        <Link to={`/product/${productName}`} className="product-image">
+        <Link to={`/product/${slug}`} className="product-image">
           <img
             src={src}
             srcSet={srcSet}

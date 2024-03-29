@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 
 import "./style.css";
@@ -10,20 +10,22 @@ const ProductCategory = () => {
   const [data, setData] = React.useState([]);
   const { productType } = useParams();
   const navigate = useNavigate();
-
   const { productDataQuery } = React.useContext(GlobalContext);
   const productData = productDataQuery.data || [];
 
   React.useEffect(() => {
-    const dataArray = productData.filter(
-      (item) => item.productType.toLowerCase() === productType.toLowerCase()
-    );
-
-    if (dataArray.length) setData(dataArray);
-    else navigate("/404");
+    if (!["accessories", "bicycles"].includes(productType)) navigate("/404");
+    else
+      setTimeout(() => {
+        const dataArray = productData.filter(
+          (item) => item.productType.toLowerCase() === productType
+        );
+        console.log(productData);
+        setData(dataArray);
+      }, 1000);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productType]);
+  }, [productType, productData]);
 
   return (
     <div className="text-black bg-white md:bg-global-color-4">

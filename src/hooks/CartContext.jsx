@@ -45,7 +45,6 @@ const CartContext = ({ children }) => {
   }, []);
 
   React.useEffect(() => {
-    console.log("hello");
     setCartItemsData(filterProductData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productData]);

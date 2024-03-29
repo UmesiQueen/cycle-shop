@@ -20,7 +20,7 @@ const ProductCategory = () => {
         const dataArray = productData.filter(
           (item) => item.productType.toLowerCase() === productType
         );
-        console.log(productData);
+
         setData(dataArray);
       }, 1000);
 

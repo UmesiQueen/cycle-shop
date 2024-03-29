@@ -1,7 +1,6 @@
-import { useState, useEffect, useRef, useContext } from "react";
+import React from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-
 import { styled, useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Tabs from "@mui/material/Tabs";
@@ -10,9 +9,9 @@ import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 
-import { productData } from "../../assets/data/products";
 import ProductCard from "../../components/ProductCard/index";
 import { CartItemsContext } from "../../hooks/CartContext";
+import { GlobalContext } from "../../hooks/AppContext";
 import "./style.css";
 
 let randomText =
@@ -74,24 +73,18 @@ const defaultActiveSizeState = {
 const Product = () => {
   const { productName } = useParams();
   const navigate = useNavigate();
-  const { setNewOrder, addToCart } = useContext(CartItemsContext);
-  const [product, setProduct] = useState();
-  const [tabContent, setTabContent] = useState(0);
-  const [activeSize, setActiveSize] = useState(defaultActiveSizeState);
-  const addToCartBtn = useRef();
+  const { setNewOrder, addToCart } = React.useContext(CartItemsContext);
+  const [product, setProduct] = React.useState();
+  const [tabContent, setTabContent] = React.useState(0);
+  const [activeSize, setActiveSize] = React.useState(defaultActiveSizeState);
+  const addToCartBtn = React.useRef();
+  const { productDataQuery } = React.useContext(GlobalContext);
+  const productData = productDataQuery.data || [];
 
-  useEffect(() => {
-    const regex = new RegExp("^[a-zA-Z0-9]*$");
-    const data = productData.filter(
-      (item) =>
-        item.name
-          .split(" ")
-          .filter((item) => item.match(regex))
-          .join("-")
-          .toLowerCase() === productName
-    );
+  React.useEffect(() => {
+    const data = productData.filter((product) => product.slug === productName);
 
-    if (data.length > 0) setProduct(data[0]);
+    if (data.length) setProduct(data[0]);
     else navigate("/404");
 
     setNewOrder(() => ({

@@ -5,10 +5,13 @@ import { mdiBullseye } from "@mdi/js";
 
 import "./style.css";
 import ProductCard from "../../components/ProductCard/index";
-import { productData } from "../../assets/data/products";
 import Extras from "../../components/Extras/index";
+import { GlobalContext } from "../../hooks/AppContext";
 
 const Home = () => {
+  const { productDataQuery } = React.useContext(GlobalContext);
+  const productData = productDataQuery.data || [];
+
   return (
     <>
       <Helmet>

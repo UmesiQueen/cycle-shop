@@ -1,24 +1,29 @@
-import { useState, useEffect } from "react";
+import React from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 
 import "./style.css";
-import { productData } from "../../assets/data/products";
 import ProductCard from "../../components/ProductCard/index";
+import { GlobalContext } from "../../hooks/AppContext";
 
 const ProductCategory = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = React.useState([]);
   const { productType } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const { productDataQuery } = React.useContext(GlobalContext);
+  const productData = productDataQuery.data || [];
+
+  React.useEffect(() => {
     const dataArray = productData.filter(
       (item) => item.productType.toLowerCase() === productType.toLowerCase()
     );
 
-    if (dataArray.length > 0) setData(dataArray);
+    if (dataArray.length) setData(dataArray);
     else navigate("/404");
-  }, [setData, productType, navigate]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productType]);
 
   return (
     <div className="text-black bg-white md:bg-global-color-4">

@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect } from "react";
-import { productData } from "../assets/data/products";
+import React from "react";
+import { GlobalContext } from "./AppContext";
 
 // const defaultOrderState = {
 //   // orderId:0,
@@ -29,22 +29,25 @@ const defaultCartItems = [
   },
 ];
 
-export const CartItemsContext = createContext();
+export const CartItemsContext = React.createContext();
 
 const CartContext = ({ children }) => {
-  const [newOrder, setNewOrder] = useState();
-  const [cartItems, setCartItems] = useState(defaultCartItems);
-  const [cartTotal, setCartTotal] = useState(0);
-  const [isClicked, setClickedState] = useState(false);
-  const [cartItemsData, setCartItemsData] = useState([]);
+  const [newOrder, setNewOrder] = React.useState();
+  const [cartItems, setCartItems] = React.useState(defaultCartItems);
+  const [cartTotal, setCartTotal] = React.useState(0);
+  const [isClicked, setClickedState] = React.useState(false);
+  const [cartItemsData, setCartItemsData] = React.useState([]);
 
-  useEffect(() => {
+  const { productDataQuery } = React.useContext(GlobalContext);
+  const productData = productDataQuery.data || [];
+
+  React.useEffect(() => {
     setCartTotal(sumCartItems);
     setCartItemsData(filterProductData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isClicked) {
       setCartTotal(sumCartItems);
       setClickedState(!isClicked);

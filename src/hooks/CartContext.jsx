@@ -37,15 +37,18 @@ const CartContext = ({ children }) => {
   const [cartTotal, setCartTotal] = React.useState(0);
   const [isClicked, setClickedState] = React.useState(false);
   const [cartItemsData, setCartItemsData] = React.useState([]);
-
-  const { productDataQuery } = React.useContext(GlobalContext);
+  const { productDataQuery, drawerState } = React.useContext(GlobalContext);
   const productData = productDataQuery.data || [];
 
   React.useEffect(() => {
     setCartTotal(sumCartItems);
-    setCartItemsData(filterProductData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    if (drawerState) setCartItemsData(filterProductData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [drawerState]);
 
   React.useEffect(() => {
     if (isClicked) {
@@ -112,8 +115,9 @@ const CartContext = ({ children }) => {
               .filter((data) => data.productId === cartItem.productId)
               .map((data) => ({
                 productId: data.productId,
-                name: data.name,
-                size: cartItem.size,
+                name: cartItem?.size
+                  ? `${data?.name} - ${cartItem?.size.toUpperCase()}`
+                  : data?.name,
                 src: data.src,
                 quantity: cartItem.quantity,
                 cost: cartItem.cost,

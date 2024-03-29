@@ -71,25 +71,27 @@ const Cart = () => {
               </TableHead>
               <TableBody>
                 {cartItemsData.map((row) => {
-                  const name = row.size
-                    ? `${row.name} - ${row.size.toUpperCase()}`
-                    : row.name;
                   return (
-                    <TableRow key={name}>
+                    <TableRow key={row.name}>
                       <StyledTableCell align="center">
                         <button className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">
                           <DeleteOutlined fontSize="small" />
                         </button>
                       </StyledTableCell>
                       <StyledTableCell>
-                        <img alt={name} src={row.src} width={70} height={70} />
+                        <img
+                          alt={row.name}
+                          src={row.src}
+                          width={70}
+                          height={70}
+                        />
                       </StyledTableCell>
                       <StyledTableCell>
                         <Link
                           to={row.slug}
                           className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
                         >
-                          {name}
+                          {row.name}
                         </Link>
                       </StyledTableCell>
                       <StyledTableCell>${row.cost}</StyledTableCell>
@@ -137,11 +139,8 @@ const Cart = () => {
         ) : (
           <>
             {cartItemsData.map((row) => {
-              const name = row.size
-                ? `${row.name} - ${row.size.toUpperCase()}`
-                : row.name;
               return (
-                <div key={name} className="mb-5 shadow-md">
+                <div key={row.name} className="mb-5 shadow-md">
                   <ul className="[&>*]:flex [&>*]:justify-between [&>*]:gap-x-2  [&>*]:p-2 [&>*:not(:last-of-type)]:border-b [&>*]:border-[#ddd] [&>*>p:first-of-type]:text-[#4b4f58] [&>*>p:first-of-type]:font-semibold border border-[#ddd] ">
                     <li>
                       <button className=" ml-auto text-gray-300 p-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300">
@@ -150,7 +149,7 @@ const Cart = () => {
                     </li>
                     <li>
                       <img
-                        alt={name}
+                        alt={row.name}
                         src={row.src}
                         width={70}
                         height={70}
@@ -163,7 +162,7 @@ const Cart = () => {
                         to={row.slug}
                         className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
                       >
-                        {name}
+                        {row.name}
                       </Link>
                     </li>
                     <li>

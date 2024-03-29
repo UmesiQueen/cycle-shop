@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -32,6 +32,7 @@ const Header = () => {
   const [isOpen, setOpen] = useState(false);
   const { cartTotal, cartItems } = useContext(CartItemsContext);
   const { setDrawerState } = useContext(GlobalContext);
+  const { pathname } = useLocation();
   const filteredCartItems = [
     ...new Set([...cartItems.map((cartItem) => cartItem.productId)]),
   ];
@@ -75,7 +76,12 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center gap-x-1 md:w-36 justify-end cursor-pointer">
-          <div onClick={() => setDrawerState(true)} className="space-x-1">
+          <div
+            onClick={() =>
+              setDrawerState(pathname.includes("/cart") ? false : true)
+            }
+            className="space-x-1"
+          >
             <span className=" cart-total font-black ">${cartTotal}</span>
             <ThemeProvider theme={theme}>
               <IconButton aria-label="cart" color="primary">

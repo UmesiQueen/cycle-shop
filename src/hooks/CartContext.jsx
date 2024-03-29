@@ -32,13 +32,12 @@ const defaultCartItems = [
 export const CartItemsContext = React.createContext();
 
 const CartContext = ({ children }) => {
-  const [newOrder, setNewOrder] = React.useState();
+  const [newOrder, setNewOrder] = React.useState(null);
   const [cartItems, setCartItems] = React.useState(defaultCartItems);
   const [cartTotal, setCartTotal] = React.useState(0);
   const [isClicked, setClickedState] = React.useState(false);
   const [cartItemsData, setCartItemsData] = React.useState([]);
-  const { productDataQuery, drawerState } = React.useContext(GlobalContext);
-  const productData = productDataQuery.data || [];
+  const { productData } = React.useContext(GlobalContext);
 
   React.useEffect(() => {
     setCartTotal(sumCartItems);
@@ -46,9 +45,10 @@ const CartContext = ({ children }) => {
   }, []);
 
   React.useEffect(() => {
-    if (drawerState) setCartItemsData(filterProductData);
+    console.log("hello");
+    setCartItemsData(filterProductData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [drawerState]);
+  }, [productData]);
 
   React.useEffect(() => {
     if (isClicked) {

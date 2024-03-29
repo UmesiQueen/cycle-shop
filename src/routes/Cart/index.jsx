@@ -70,9 +70,9 @@ const Cart = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {cartItemsData.map((row) => {
+                {cartItemsData.map((row, index) => {
                   return (
-                    <TableRow key={row?.name}>
+                    <TableRow key={index}>
                       <StyledTableCell align="center">
                         <button className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">
                           <DeleteOutlined fontSize="small" />
@@ -138,9 +138,9 @@ const Cart = () => {
           </TableContainer>
         ) : (
           <>
-            {cartItemsData.map((row) => {
+            {cartItemsData.map((row, index) => {
               return (
-                <div key={row?.name} className="mb-5 shadow-md">
+                <div key={index} className="mb-5 shadow-md">
                   <ul className="[&>*]:flex [&>*]:justify-between [&>*]:gap-x-2  [&>*]:p-2 [&>*:not(:last-of-type)]:border-b [&>*]:border-[#ddd] [&>*>p:first-of-type]:text-[#4b4f58] [&>*>p:first-of-type]:font-semibold border border-[#ddd] ">
                     <li>
                       <button className=" ml-auto text-gray-300 p-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300">

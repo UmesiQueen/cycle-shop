@@ -10,19 +10,17 @@ const ProductCategory = () => {
   const [data, setData] = React.useState([]);
   const { productType } = useParams();
   const navigate = useNavigate();
-  const { productDataQuery } = React.useContext(GlobalContext);
-  const productData = productDataQuery.data || [];
+  const { productData } = React.useContext(GlobalContext);
 
   React.useEffect(() => {
     if (!["accessories", "bicycles"].includes(productType)) navigate("/404");
-    else
-      setTimeout(() => {
-        const dataArray = productData.filter(
-          (item) => item.productType.toLowerCase() === productType
-        );
+    else {
+      const dataArray = productData.filter(
+        (item) => item.productType.toLowerCase() === productType
+      );
 
-        setData(dataArray);
-      }, 1000);
+      setData(dataArray);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productType, productData]);

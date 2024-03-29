@@ -9,8 +9,7 @@ import Extras from "../../components/Extras/index";
 import { GlobalContext } from "../../hooks/AppContext";
 
 const Home = () => {
-  const { productDataQuery } = React.useContext(GlobalContext);
-  const productData = productDataQuery.data || [];
+  const { productData } = React.useContext(GlobalContext);
 
   return (
     <>

@@ -78,8 +78,7 @@ const Product = () => {
   const [tabContent, setTabContent] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(defaultActiveSizeState);
   const addToCartBtn = React.useRef();
-  const { productDataQuery } = React.useContext(GlobalContext);
-  const productData = productDataQuery.data || [];
+  const { productData } = React.useContext(GlobalContext);
 
   React.useEffect(() => {
     const data = productData.filter((product) => product.slug === productName);

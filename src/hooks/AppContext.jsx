@@ -9,6 +9,7 @@ export const GlobalContext = React.createContext();
 const AppContext = ({ children }) => {
   const { pathname } = useLocation();
   const [drawerState, setDrawerState] = React.useState(false);
+  const [productData, setProductData] = React.useState([]);
 
   const productDataQuery = useQuery({
     queryKey: ["products"],
@@ -17,6 +18,12 @@ const AppContext = ({ children }) => {
         res.json()
       ),
   });
+  const isFetched = productDataQuery.isFetched;
+
+  React.useEffect(() => {
+    if (isFetched) setProductData(productDataQuery.data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetched]);
 
   React.useEffect(() => {
     if (window.scrollY !== 0) window.scrollTo({ top: 0, behavior: "smooth" });
@@ -24,7 +31,7 @@ const AppContext = ({ children }) => {
 
   return (
     <GlobalContext.Provider
-      value={{ drawerState, setDrawerState, productDataQuery }}
+      value={{ drawerState, setDrawerState, productData }}
     >
       <CartContext>{children}</CartContext>
     </GlobalContext.Provider>

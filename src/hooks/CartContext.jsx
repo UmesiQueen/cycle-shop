@@ -1,39 +1,14 @@
 import React from "react";
 import { GlobalContext } from "./AppContext";
 
-// const defaultOrderState = {
-//   // orderId:0,
-//   // userId:0,
-// };
-
-const defaultCartItems = [
-  {
-    productId: 1,
-    type: "Accessories",
-    size: "xl",
-    quantity: 2,
-    cost: "40.00",
-  },
-  {
-    productId: 1,
-    type: "Accessories",
-    size: "m",
-    quantity: 2,
-    cost: "35.00",
-  },
-  {
-    productId: 13,
-    type: "Bicycles",
-    quantity: 2,
-    cost: "350.00",
-  },
-];
-
 export const CartItemsContext = React.createContext();
 
 const CartContext = ({ children }) => {
-  const [newOrder, setNewOrder] = React.useState(null);
-  const [cartItems, setCartItems] = React.useState(defaultCartItems);
+  const retrievedCartItems =
+    JSON.parse(localStorage.getItem("cartItems")) || [];
+
+  const [newOrder, setNewOrder] = React.useState();
+  const [cartItems, setCartItems] = React.useState(retrievedCartItems);
   const [cartTotal, setCartTotal] = React.useState(0);
   const [isClicked, setClickedState] = React.useState(false);
   const [cartItemsData, setCartItemsData] = React.useState([]);
@@ -57,6 +32,10 @@ const CartContext = ({ children }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isClicked]);
+
+  React.useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   function addToCart() {
     setClickedState(true);

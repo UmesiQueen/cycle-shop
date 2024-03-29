@@ -72,7 +72,7 @@ const Cart = () => {
               <TableBody>
                 {cartItemsData.map((row) => {
                   return (
-                    <TableRow key={row.name}>
+                    <TableRow key={row?.name}>
                       <StyledTableCell align="center">
                         <button className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">
                           <DeleteOutlined fontSize="small" />
@@ -80,21 +80,21 @@ const Cart = () => {
                       </StyledTableCell>
                       <StyledTableCell>
                         <img
-                          alt={row.name}
-                          src={row.src}
+                          alt={row?.name}
+                          src={row?.src}
                           width={70}
                           height={70}
                         />
                       </StyledTableCell>
                       <StyledTableCell>
                         <Link
-                          to={row.slug}
+                          to={row?.slug}
                           className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
                         >
-                          {row.name}
+                          {row?.name}
                         </Link>
                       </StyledTableCell>
-                      <StyledTableCell>${row.cost}</StyledTableCell>
+                      <StyledTableCell>${row?.cost}</StyledTableCell>
                       <StyledTableCell>
                         <input
                           type="number"
@@ -103,13 +103,13 @@ const Cart = () => {
                           min="1"
                           step="1"
                           inputMode="numeric"
-                          value={row.quantity}
+                          value={row?.quantity}
                           className="text-center w-14 border h-8"
                           onChange={handleOnChange}
                         />
                       </StyledTableCell>
                       <StyledTableCell>
-                        ${Number(row.cost) * Number(row.quantity)}
+                        ${Number(row?.cost) * Number(row?.quantity)}
                       </StyledTableCell>
                     </TableRow>
                   );
@@ -140,7 +140,7 @@ const Cart = () => {
           <>
             {cartItemsData.map((row) => {
               return (
-                <div key={row.name} className="mb-5 shadow-md">
+                <div key={row?.name} className="mb-5 shadow-md">
                   <ul className="[&>*]:flex [&>*]:justify-between [&>*]:gap-x-2  [&>*]:p-2 [&>*:not(:last-of-type)]:border-b [&>*]:border-[#ddd] [&>*>p:first-of-type]:text-[#4b4f58] [&>*>p:first-of-type]:font-semibold border border-[#ddd] ">
                     <li>
                       <button className=" ml-auto text-gray-300 p-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300">
@@ -149,8 +149,8 @@ const Cart = () => {
                     </li>
                     <li>
                       <img
-                        alt={row.name}
-                        src={row.src}
+                        alt={row?.name}
+                        src={row?.src}
                         width={70}
                         height={70}
                         className="mx-auto"
@@ -159,15 +159,15 @@ const Cart = () => {
                     <li>
                       <p>Product:</p>
                       <Link
-                        to={row.slug}
+                        to={row?.slug}
                         className="font-semibold text-global-color-0 hover:text-global-color-1 transition duration-300"
                       >
-                        {row.name}
+                        {row?.name}
                       </Link>
                     </li>
                     <li>
                       <p>Price:</p>
-                      <p>${row.cost}</p>
+                      <p>${row?.cost}</p>
                     </li>
                     <li>
                       <p>Quantity:</p>
@@ -178,14 +178,14 @@ const Cart = () => {
                         min="1"
                         step="1"
                         inputMode="numeric"
-                        value={row.quantity}
+                        value={row?.quantity}
                         className="text-center w-14 border h-8"
                         onChange={handleOnChange}
                       />
                     </li>
                     <li>
                       <p>Subtotal:</p>
-                      <p> ${Number(row.cost) * Number(row.quantity)}</p>
+                      <p> ${Number(row?.cost) * Number(row?.quantity)}</p>
                     </li>
                   </ul>
                 </div>

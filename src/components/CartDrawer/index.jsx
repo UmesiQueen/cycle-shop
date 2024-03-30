@@ -14,8 +14,13 @@ import { CartItemsContext } from "../../hooks/CartContext";
 import { GlobalContext } from "../../hooks/AppContext";
 
 const CartDrawer = () => {
-  const { cartTotal, cartItemsData } = React.useContext(CartItemsContext);
+  const { cartTotal, cartItemsData, setCartItems } =
+    React.useContext(CartItemsContext);
   const { drawerState, setDrawerState } = React.useContext(GlobalContext);
+
+  const handleDelete = (productId) => {
+    setCartItems((prev) => prev.filter((item) => item.productId !== productId));
+  };
 
   return (
     <Drawer
@@ -60,7 +65,13 @@ const CartDrawer = () => {
                   <span>${cartItem?.cost}</span>
                 </p>
               </div>
-              <button className=" ml-auto text-gray-300 py-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">
+              <button
+                className=" ml-auto text-gray-300 py-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0"
+                type="button"
+                onClick={() => {
+                  handleDelete(cartItem?.productId);
+                }}
+              >
                 <DeleteOutlined fontSize="small" />
               </button>
             </ListItem>

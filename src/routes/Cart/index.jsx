@@ -86,6 +86,12 @@ const Cart = () => {
       );
     };
 
+    const handleDelete = (productId) => {
+      setCartItems((prev) =>
+        prev.filter((item) => item.productId !== productId)
+      );
+    };
+
     return (
       <>
         {matches ? (
@@ -106,7 +112,13 @@ const Cart = () => {
                   return (
                     <TableRow key={index} id={row?.productId}>
                       <StyledTableCell align="center">
-                        <button className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">
+                        <button
+                          className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0"
+                          type="button"
+                          onClick={() => {
+                            handleDelete(row?.productId);
+                          }}
+                        >
                           <DeleteOutlined fontSize="small" />
                         </button>
                       </StyledTableCell>
@@ -165,7 +177,13 @@ const Cart = () => {
                 <div key={index} className="mb-5 shadow-md">
                   <ul className="[&>*]:flex [&>*]:justify-between [&>*]:gap-x-2  [&>*]:p-2 [&>*:not(:last-of-type)]:border-b [&>*]:border-[#ddd] [&>*>p:first-of-type]:text-[#4b4f58] [&>*>p:first-of-type]:font-semibold border border-[#ddd] ">
                     <li>
-                      <button className=" ml-auto text-gray-300 p-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300">
+                      <button
+                        className=" ml-auto text-gray-300 p-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300"
+                        type="button"
+                        onClick={() => {
+                          handleDelete(row?.productId);
+                        }}
+                      >
                         <DeleteOutlined fontSize="small" />
                       </button>
                     </li>

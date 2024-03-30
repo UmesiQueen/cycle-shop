@@ -46,12 +46,44 @@ const styleTableCell = {
 };
 
 const Cart = () => {
-  const { cartItemsData, cartTotal } = React.useContext(CartItemsContext);
+  const { cartItemsData, cartTotal, setCartItems } =
+    React.useContext(CartItemsContext);
   const matches = useMediaQuery("(min-width:768px)");
 
   const CartTable = () => {
-    const handleOnChange = (event) => {
-      // do stuff
+    const Input = ({ quantity }) => {
+      const [quantity_, setQuantity] = React.useState(quantity);
+
+      const handleOnChange = (event) => {
+        const { value } = event.target;
+        const parentId = Number(
+          event.target.parentElement.parentElement.attributes.id.value
+        );
+
+        setQuantity(value);
+
+        setCartItems((prev) => {
+          const res = prev.findIndex(
+            (item) => Number(item.productId) === parentId
+          );
+          prev[res].quantity = Number(value);
+          return [...prev];
+        });
+      };
+
+      return (
+        <input
+          type="number"
+          name="quantity"
+          placeholder="1"
+          min="1"
+          step="1"
+          inputMode="numeric"
+          value={quantity_}
+          className="text-center w-14 border h-8"
+          onChange={handleOnChange}
+        />
+      );
     };
 
     return (
@@ -72,7 +104,7 @@ const Cart = () => {
               <TableBody>
                 {cartItemsData.map((row, index) => {
                   return (
-                    <TableRow key={index}>
+                    <TableRow key={index} id={row?.productId}>
                       <StyledTableCell align="center">
                         <button className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0">
                           <DeleteOutlined fontSize="small" />
@@ -96,17 +128,7 @@ const Cart = () => {
                       </StyledTableCell>
                       <StyledTableCell>${row?.cost}</StyledTableCell>
                       <StyledTableCell>
-                        <input
-                          type="number"
-                          name="quantity"
-                          placeholder="1"
-                          min="1"
-                          step="1"
-                          inputMode="numeric"
-                          value={row?.quantity}
-                          className="text-center w-14 border h-8"
-                          onChange={handleOnChange}
-                        />
+                        <Input quantity={row?.quantity} />
                       </StyledTableCell>
                       <StyledTableCell>
                         ${Number(row?.cost) * Number(row?.quantity)}
@@ -171,17 +193,7 @@ const Cart = () => {
                     </li>
                     <li>
                       <p>Quantity:</p>
-                      <input
-                        type="number"
-                        name="quantity"
-                        placeholder="1"
-                        min="1"
-                        step="1"
-                        inputMode="numeric"
-                        value={row?.quantity}
-                        className="text-center w-14 border h-8"
-                        onChange={handleOnChange}
-                      />
+                      <Input quantity={row?.quantity} />
                     </li>
                     <li>
                       <p>Subtotal:</p>

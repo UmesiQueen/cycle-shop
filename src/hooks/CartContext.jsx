@@ -35,6 +35,9 @@ const CartContext = ({ children }) => {
 
   React.useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    setCartItemsData(filterProductData);
+    setCartTotal(sumCartItems);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartItems]);
 
   function addToCart() {
@@ -108,7 +111,14 @@ const CartContext = ({ children }) => {
 
   return (
     <CartItemsContext.Provider
-      value={{ setNewOrder, addToCart, cartItems, cartTotal, cartItemsData }}
+      value={{
+        setNewOrder,
+        addToCart,
+        cartItems,
+        cartTotal,
+        cartItemsData,
+        setCartItems,
+      }}
     >
       {children}
     </CartItemsContext.Provider>

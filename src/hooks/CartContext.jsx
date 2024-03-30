@@ -69,10 +69,10 @@ const CartContext = ({ children }) => {
       }
 
       // if newOrder does not exist, add newOrder to cart
-      return [...cartItems, newOrder];
+      return [...cartItems, { ...newOrder, orderId: Date.now() }];
     }
     // if array is empty, add newOrder to cart
-    return [newOrder];
+    return [{ ...newOrder, orderId: Date.now() }];
   }
 
   function sumCartItems() {
@@ -95,13 +95,14 @@ const CartContext = ({ children }) => {
             ...productData
               .filter((data) => data.productId === cartItem.productId)
               .map((data) => ({
-                productId: data.productId,
+                productId: cartItem?.productId,
+                orderId: cartItem?.orderId,
                 name: cartItem?.size
                   ? `${data?.name} - ${cartItem?.size.toUpperCase()}`
                   : data?.name,
-                src: data.src,
-                quantity: cartItem.quantity,
-                cost: cartItem.cost,
+                src: data?.src,
+                quantity: cartItem?.quantity,
+                cost: cartItem?.cost,
               })),
           }[0])
       );

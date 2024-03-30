@@ -18,8 +18,8 @@ const CartDrawer = () => {
     React.useContext(CartItemsContext);
   const { drawerState, setDrawerState } = React.useContext(GlobalContext);
 
-  const handleDelete = (productId) => {
-    setCartItems((prev) => prev.filter((item) => item.productId !== productId));
+  const handleDelete = (orderId) => {
+    setCartItems((prev) => prev.filter((item) => item.orderId !== orderId));
   };
 
   return (
@@ -43,9 +43,9 @@ const CartDrawer = () => {
         </div>
         <Divider />
         <List className="!px-6 !pt-4">
-          {cartItemsData.map((cartItem, index) => (
+          {cartItemsData.map((cartItem) => (
             <ListItem
-              key={index}
+              key={cartItem?.orderId}
               className=" border-b !px-0 !py-3 text-sm md:text-base "
             >
               <ListItemIcon>
@@ -69,7 +69,7 @@ const CartDrawer = () => {
                 className=" ml-auto text-gray-300 py-1 px-2 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0"
                 type="button"
                 onClick={() => {
-                  handleDelete(cartItem?.productId);
+                  handleDelete(cartItem?.orderId);
                 }}
               >
                 <DeleteOutlined fontSize="small" />

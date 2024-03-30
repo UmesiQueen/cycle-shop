@@ -64,7 +64,7 @@ const Cart = () => {
 
         setCartItems((prev) => {
           const res = prev.findIndex(
-            (item) => Number(item.productId) === parentId
+            (item) => Number(item.orderId) === parentId
           );
           prev[res].quantity = Number(value);
           return [...prev];
@@ -86,10 +86,8 @@ const Cart = () => {
       );
     };
 
-    const handleDelete = (productId) => {
-      setCartItems((prev) =>
-        prev.filter((item) => item.productId !== productId)
-      );
+    const handleDelete = (orderId) => {
+      setCartItems((prev) => prev.filter((item) => item.orderId !== orderId));
     };
 
     return (
@@ -110,13 +108,13 @@ const Cart = () => {
               <TableBody>
                 {cartItemsData.map((row, index) => {
                   return (
-                    <TableRow key={index} id={row?.productId}>
+                    <TableRow key={index} id={row?.orderId}>
                       <StyledTableCell align="center">
                         <button
                           className=" ml-auto text-gray-300 p-1 rounded-full hover:bg-gray-300/20 hover:text-gray-700 transition duration-300 mt-auto md:mt-0"
                           type="button"
                           onClick={() => {
-                            handleDelete(row?.productId);
+                            handleDelete(row?.orderId);
                           }}
                         >
                           <DeleteOutlined fontSize="small" />

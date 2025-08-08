@@ -1,4 +1,6 @@
 import React from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const CartItemsContext = React.createContext();
 
@@ -18,6 +20,7 @@ const CartContext = ({ children }) => {
     setCartItems(newCartItems);
     localStorage.setItem("cartItems", JSON.stringify(newCartItems)); 
     setCartTotal(sumCartItems);
+     toast.success("Added to cart!");
   }
 
   function updateOrInsertNewOrder(newOrder) {
@@ -71,6 +74,11 @@ const CartContext = ({ children }) => {
       }}
     >
       {children}
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+      
+      />
     </CartItemsContext.Provider>
   );
 };

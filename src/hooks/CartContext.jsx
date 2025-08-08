@@ -1,52 +1,20 @@
 import React from "react";
-import { GlobalContext } from "./AppContext";
 
 export const CartItemsContext = React.createContext();
 
 const CartContext = ({ children }) => {
   const retrievedCartItems =
     JSON.parse(localStorage.getItem("cartItems")) || [];
-
-  const [newOrder, setNewOrder] = React.useState();
   const [cartItems, setCartItems] = React.useState(retrievedCartItems);
-  const [cartTotal, setCartTotal] = React.useState(0);
-  const [isClicked, setClickedState] = React.useState(false);
-  const [cartItemsData, setCartItemsData] = React.useState([]);
-  const { productData } = React.useContext(GlobalContext);
+  const cartTotal = React.useMemo(sumCartItems, [cartItems]);
 
-  React.useEffect(() => {
-    setCartTotal(sumCartItems);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  React.useEffect(() => {
-    setCartItemsData(filterProductData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productData]);
-
-  React.useEffect(() => {
-    if (isClicked) {
-      setCartTotal(sumCartItems);
-      setClickedState(!isClicked);
-      setCartItemsData(filterProductData);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isClicked]);
-
-  React.useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    setCartItemsData(filterProductData);
-    setCartTotal(sumCartItems);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cartItems]);
-
-  function addToCart() {
-    setClickedState(true);
-    const newCartItems = updateOrInsertNewOrder();
+  function addToCart(newOrder) {
+    const newCartItems = updateOrInsertNewOrder(newOrder);
     setCartItems(newCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(newCartItems)); 
   }
 
-  function updateOrInsertNewOrder() {
+  function updateOrInsertNewOrder(newOrder) {
     const { productId, type, size, quantity } = newOrder;
 
     if (cartItems.length) {
@@ -87,37 +55,12 @@ const CartContext = ({ children }) => {
     return cost;
   }
 
-  function filterProductData() {
-    if (cartItems.length) {
-      return cartItems.map(
-        (cartItem) =>
-          ({
-            ...productData
-              .filter((data) => data.productId === cartItem.productId)
-              .map((data) => ({
-                productId: cartItem?.productId,
-                orderId: cartItem?.orderId,
-                name: cartItem?.size
-                  ? `${data?.name} - ${cartItem?.size.toUpperCase()}`
-                  : data?.name,
-                src: data?.src,
-                quantity: cartItem?.quantity,
-                cost: cartItem?.cost,
-              })),
-          }[0])
-      );
-    }
-    return [];
-  }
-
   return (
     <CartItemsContext.Provider
       value={{
-        setNewOrder,
         addToCart,
         cartItems,
         cartTotal,
-        cartItemsData,
         setCartItems,
       }}
     >

@@ -46,7 +46,7 @@ const styleTableCell = {
 };
 
 const Cart = () => {
-  const { cartItemsData, cartTotal, setCartItems } =
+  const { cartItems, cartTotal, setCartItems } =
     React.useContext(CartItemsContext);
   const matches = useMediaQuery("(min-width:768px)");
 
@@ -106,7 +106,7 @@ const Cart = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {cartItemsData.map((row, index) => {
+                {cartItems.map((row, index) => {
                   return (
                     <TableRow key={index} id={row?.orderId}>
                       <StyledTableCell align="center">
@@ -170,7 +170,7 @@ const Cart = () => {
           </TableContainer>
         ) : (
           <>
-            {cartItemsData.map((row, index) => {
+            {cartItems.map((row, index) => {
               return (
                 <div key={index} className="mb-5 shadow-md">
                   <ul className="[&>*]:flex [&>*]:justify-between [&>*]:gap-x-2  [&>*]:p-2 [&>*:not(:last-of-type)]:border-b [&>*]:border-[#ddd] [&>*>p:first-of-type]:text-[#4b4f58] [&>*>p:first-of-type]:font-semibold border border-[#ddd] ">
@@ -266,7 +266,7 @@ const Cart = () => {
     <div className="__container bg-white  md:bg-global-color-4">
       <div className="text-black bg-global-color-5 my-4 md:my-12 lg:my-20 md:p-5 lg:px-20 ">
         <h3 className="capitalize mb-5">Cart</h3>
-        {cartItemsData.length ? (
+        {cartItems.length ? (
           <CartTable />
         ) : (
           <div className="space-y-5 text-center">

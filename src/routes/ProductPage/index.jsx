@@ -73,29 +73,22 @@ const defaultActiveSizeState = {
 const Product = () => {
   const { productName } = useParams();
   const navigate = useNavigate();
-  const { setNewOrder, addToCart } = React.useContext(CartItemsContext);
-  const [product, setProduct] = React.useState();
+  const { addToCart } = React.useContext(CartItemsContext);
+  const [product, setProduct] = React.useState({});
   const [tabContent, setTabContent] = React.useState(0);
+  const [orderQuantity, setOrderQuantity] = React.useState(1);
   const [activeSize, setActiveSize] = React.useState(defaultActiveSizeState);
   const addToCartBtn = React.useRef();
   const { productData } = React.useContext(GlobalContext);
 
   React.useEffect(() => {
-    const data = productData.filter((product) => product.slug === productName);
-
-    if (data.length) setProduct(data[0]);
+    const data = (productData.filter(
+      (product) => product.slug === productName
+    ))[0];
+    if (data.length) setProduct(data);
     else navigate("/404");
-
-    setNewOrder(() => ({
-      productId: data[0]?.productId,
-      type: data[0]?.productType,
-      quantity: 1,
-      cost: data[0]?.price,
-    }));
-    setActiveSize(defaultActiveSizeState); // reset to default values
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [productName]);
+  }, []);
 
   const handleTabChange = (event, newValue) => {
     setTabContent(newValue);
@@ -103,7 +96,7 @@ const Product = () => {
 
   const handleOnChange = (event) => {
     const { value } = event.currentTarget;
-    setNewOrder((prev) => ({ ...prev, quantity: Number(value) }));
+    setOrderQuantity(Number(value));
   };
 
   const handleSizeOnClick = (index, size, cost) => {
@@ -112,8 +105,6 @@ const Product = () => {
       size,
       cost,
     });
-
-    setNewOrder((prev) => ({ ...prev, size, cost }));
   };
 
   const handleSubmit = (e) => {
@@ -123,13 +114,28 @@ const Product = () => {
     addToCartBtn.current.innerHTML = "Adding to Cart...";
     addToCartBtn.current.disabled = true;
 
+    const orderDetail = {
+      productId: product.productId,
+      type: product.productType,
+      quantity: orderQuantity,
+      src: product.src,
+      ...(product.productType === "Accessories" ? {
+        size: activeSize.size,
+        cost: activeSize.cost,
+        name: `${product.name} - ${activeSize.size.toUpperCase()}`,
+      }:{
+        name: product.name,
+        cost: product.price,
+      }),
+
+    };
+
     setTimeout(() => {
-      addToCart();
+      addToCart(orderDetail);
 
       addToCartBtn.current.innerHTML = "Add to Cart";
       addToCartBtn.current.disabled = false;
 
-      setNewOrder((prev) => ({ ...prev, quantity: 1 }));
       form.reset();
     }, 300);
   };

@@ -33,9 +33,6 @@ const Header = () => {
   const { cartTotal, cartItems } = useContext(CartItemsContext);
   const { setDrawerState } = useContext(GlobalContext);
   const { pathname } = useLocation();
-  const filteredCartItems = [
-    ...new Set([...cartItems.map((cartItem) => cartItem.productId)]),
-  ];
 
   return (
     <header>
@@ -86,7 +83,7 @@ const Header = () => {
             <ThemeProvider theme={theme}>
               <IconButton aria-label="cart" color="primary">
                 <Badge
-                  badgeContent={filteredCartItems.length}
+                  badgeContent={cartItems.length}
                   color="primary"
                   showZero
                 >

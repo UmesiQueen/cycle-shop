@@ -14,7 +14,7 @@ import { CartItemsContext } from "../../hooks/CartContext";
 import { GlobalContext } from "../../hooks/AppContext";
 
 const CartDrawer = () => {
-  const { cartTotal, cartItemsData, setCartItems } =
+  const { cartTotal, cartItems, setCartItems } =
     React.useContext(CartItemsContext);
   const { drawerState, setDrawerState } = React.useContext(GlobalContext);
 
@@ -43,7 +43,7 @@ const CartDrawer = () => {
         </div>
         <Divider />
         <List className="!px-6 !pt-4">
-          {cartItemsData.map((cartItem) => (
+          {cartItems.map((cartItem) => (
             <ListItem
               key={cartItem?.orderId}
               className=" border-b !px-0 !py-3 text-sm md:text-base "

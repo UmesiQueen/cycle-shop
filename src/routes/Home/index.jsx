@@ -5,11 +5,12 @@ import { mdiBullseye } from "@mdi/js";
 
 import "./style.css";
 import ProductCard from "../../components/ProductCard/index";
+import ProductCardSkeleton from "../../components/ProductCardSkelton";
 import Extras from "../../components/Extras/index";
 import { GlobalContext } from "../../hooks/AppContext";
 
 const Home = () => {
-  const { productData } = React.useContext(GlobalContext);
+  const { productData, isProductDataLoading } = React.useContext(GlobalContext);
 
   return (
     <>
@@ -65,17 +66,26 @@ const Home = () => {
             <div className="p-3 md:p-0 ">
               <h2 className="text-black text-center mb-14">New Arrivals</h2>
               <ul className="__grid-container">
-                {productData
-                  .filter((item) => item.productType === "Bicycles")
-                  .slice(0, 4)
-                  .map((item) => (
-                    <li
-                      key={item.productId}
-                      className={`__grid-item col-${item.productId}`}
-                    >
-                      <ProductCard {...item} />
-                    </li>
-                  ))}
+                {isProductDataLoading
+                  ? Array.from(new Array(4)).map((_, index) => (
+                      <li
+                        key={index}
+                        className={`__grid-item col-${index + 1}`}
+                      >
+                        <ProductCardSkeleton />
+                      </li>
+                    ))
+                  : productData
+                      .filter((item) => item.productType === "Bicycles")
+                      .slice(0, 4)
+                      .map((item) => (
+                        <li
+                          key={item.productId}
+                          className={`__grid-item col-${item.productId}`}
+                        >
+                          <ProductCard {...item} />
+                        </li>
+                      ))}
               </ul>
             </div>
           </div>
@@ -146,17 +156,26 @@ const Home = () => {
                 Explore Accessories
               </h2>
               <ul className="__grid-container">
-                {productData
-                  .filter((item) => item.productType === "Accessories")
-                  .slice(0, 4)
-                  .map((item) => (
-                    <li
-                      key={item.productId}
-                      className={`__grid-item col-${item.productId}`}
-                    >
-                      <ProductCard {...item} />
-                    </li>
-                  ))}
+                {isProductDataLoading
+                  ? Array.from(new Array(4)).map((_, index) => (
+                      <li
+                        key={index}
+                        className={`__grid-item col-${index + 1}`}
+                      >
+                        <ProductCardSkeleton />
+                      </li>
+                    ))
+                  : productData
+                      .filter((item) => item.productType === "Accessories")
+                      .slice(0, 4)
+                      .map((item) => (
+                        <li
+                          key={item.productId}
+                          className={`__grid-item col-${item.productId}`}
+                        >
+                          <ProductCard {...item} />
+                        </li>
+                      ))}
               </ul>
               <div className=" mt-10 text-center ">
                 <button className="btn">View All</button>

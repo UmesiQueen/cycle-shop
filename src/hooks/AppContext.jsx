@@ -11,19 +11,21 @@ const AppContext = ({ children }) => {
   const [drawerState, setDrawerState] = React.useState(false);
   const [productData, setProductData] = React.useState([]);
 
-  const productDataQuery = useQuery({
+  const {
+    isFetched,
+    data,
+    isLoading: isProductDataLoading,
+  } = useQuery({
     queryKey: ["products"],
     queryFn: () =>
       fetch("https://cycle-shop-server.onrender.com/api/products").then((res) =>
         res.json()
       ),
   });
-  const isFetched = productDataQuery.isFetched;
 
   React.useEffect(() => {
-    if (isFetched) setProductData(productDataQuery.data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFetched]);
+    if (isFetched && data) setProductData(data);
+  }, [isFetched, data]);
 
   React.useEffect(() => {
     if (window.scrollY !== 0) window.scrollTo({ top: 0, behavior: "smooth" });
@@ -31,7 +33,7 @@ const AppContext = ({ children }) => {
 
   return (
     <GlobalContext.Provider
-      value={{ drawerState, setDrawerState, productData }}
+      value={{ drawerState, setDrawerState, productData, isProductDataLoading }}
     >
       <CartContext>{children}</CartContext>
     </GlobalContext.Provider>

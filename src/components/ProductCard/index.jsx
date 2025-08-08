@@ -18,7 +18,7 @@ const ProductCard = ({
   srcSet,
   prices,
 }) => {
-  const { setNewOrder, addToCart } = useContext(CartItemsContext);
+  const { addToCart } = useContext(CartItemsContext);
   const [isActive, setActive] = useState(-1);
   const [inActive, setInActive] = useState([]);
 
@@ -45,33 +45,39 @@ const ProductCard = ({
         return false;
       }
     }
-
-    return addToCart();
+    const orderDetails = getOrderDetail();
+    return addToCart(orderDetails);
   };
 
-  let defaultOrderState = {
-    productId,
-    type: productType,
-    quantity: 1,
-    cost: price,
-  };
+  const getOrderDetail = () => {
+    let orderDetail = {
+      productId,
+      type: productType,
+      quantity: 1,
+      cost: price,
+      src,
+    };
 
-  const setDefaultOrderState = () => {
     if (productType === "Accessories") {
       if (isActive !== -1) {
         const { cost, size } = prices.filter(
           (_, index) => isActive === index
         )[0];
 
-        return setNewOrder({ ...defaultOrderState, cost, size });
+        return {
+          ...orderDetail,
+          cost,
+          size,
+          name: `${name} - ${size.toUpperCase()}`,
+        };
       }
     }
-    return setNewOrder(defaultOrderState);
+    return { ...orderDetail, name };
   };
 
   return (
     <div className=" w-fit h-full flex flex-col">
-      <div className="relative mb-3" onMouseEnter={setDefaultOrderState}>
+      <div className="relative mb-3">
         <Link to={`/product/${slug}`} className="product-image">
           <img
             src={src}

@@ -6,12 +6,18 @@ const CartContext = ({ children }) => {
   const retrievedCartItems =
     JSON.parse(localStorage.getItem("cartItems")) || [];
   const [cartItems, setCartItems] = React.useState(retrievedCartItems);
-  const cartTotal = React.useMemo(sumCartItems, [cartItems]);
+  const [cartTotal, setCartTotal] = React.useState(0);
+
+  React.useEffect(() => {
+    setCartTotal(sumCartItems);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartItems]);
 
   function addToCart(newOrder) {
     const newCartItems = updateOrInsertNewOrder(newOrder);
     setCartItems(newCartItems);
     localStorage.setItem("cartItems", JSON.stringify(newCartItems)); 
+    setCartTotal(sumCartItems);
   }
 
   function updateOrInsertNewOrder(newOrder) {

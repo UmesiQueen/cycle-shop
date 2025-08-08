@@ -4,13 +4,14 @@ import Breadcrumbs from "@mui/material/Breadcrumbs";
 
 import "./style.css";
 import ProductCard from "../../components/ProductCard/index";
+import ProductCardSkeleton from "../../components/ProductCardSkelton";
 import { GlobalContext } from "../../hooks/AppContext";
 
 const ProductCategory = () => {
   const [data, setData] = React.useState([]);
   const { productType } = useParams();
   const navigate = useNavigate();
-  const { productData } = React.useContext(GlobalContext);
+  const { productData, isProductDataLoading } = React.useContext(GlobalContext);
 
   React.useEffect(() => {
     if (!["accessories", "bicycles"].includes(productType)) navigate("/404");
@@ -40,11 +41,17 @@ const ProductCategory = () => {
 
           <p className="my-5">Showing all {data.length} results</p>
           <ul className="grid grid-cols-2 md:grid-cols-3 gap-5 md:my-10">
-            {data.map((item) => (
-              <li key={item.productId}>
-                <ProductCard {...item} />
-              </li>
-            ))}
+            {isProductDataLoading
+              ? Array.from(new Array(3)).map((_, index) => (
+                  <li key={index}>
+                    <ProductCardSkeleton />
+                  </li>
+                ))
+              : data.map((item) => (
+                  <li key={item.productId}>
+                    <ProductCard {...item} />
+                  </li>
+                ))}
           </ul>
         </section>
       </div>

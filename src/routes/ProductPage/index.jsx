@@ -1,5 +1,6 @@
 import React from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
 import { styled, useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -26,8 +27,6 @@ const StyledTabs = styled((props) => {
     top: "0",
     backgroundColor: "#b62d25",
     height: "4px",
-    // width: matches ? "4px" : "fit-content",
-    // right: matches ? "unset" : "0",
   },
 });
 
@@ -72,7 +71,6 @@ const defaultActiveSizeState = {
 
 const Product = () => {
   const { productName } = useParams();
-  const navigate = useNavigate();
   const { addToCart } = React.useContext(CartItemsContext);
   const [product, setProduct] = React.useState({});
   const [tabContent, setTabContent] = React.useState(0);
@@ -81,14 +79,26 @@ const Product = () => {
   const addToCartBtn = React.useRef();
   const { productData } = React.useContext(GlobalContext);
 
+  const {
+    isFetched,
+    isFetching,
+    data,
+    isLoading: isProductDataLoading
+  } = useQuery({
+    queryKey: ["product",productName],
+    queryFn: () =>
+      fetch(
+        `https://cycle-shop-server.onrender.com/api/products/${productName}`
+      ).then((res) => res.json()),
+  });
+
   React.useEffect(() => {
-    const data = (productData.filter(
-      (product) => product.slug === productName
-    ))[0];
-    if (data.length) setProduct(data);
-    else navigate("/404");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (isFetched && data) {
+      setProduct(data);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFetching]);
+
 
   const handleTabChange = (event, newValue) => {
     setTabContent(newValue);
@@ -119,15 +129,16 @@ const Product = () => {
       type: product.productType,
       quantity: orderQuantity,
       src: product.src,
-      ...(product.productType === "Accessories" ? {
-        size: activeSize.size,
-        cost: activeSize.cost,
-        name: `${product.name} - ${activeSize.size.toUpperCase()}`,
-      }:{
-        name: product.name,
-        cost: product.price,
-      }),
-
+      ...(product.productType === "Accessories"
+        ? {
+            size: activeSize.size,
+            cost: activeSize.cost,
+            name: `${product.name} - ${activeSize.size.toUpperCase()}`,
+          }
+        : {
+            name: product.name,
+            cost: product.price,
+          }),
     };
 
     setTimeout(() => {
@@ -139,6 +150,19 @@ const Product = () => {
       form.reset();
     }, 300);
   };
+
+  if (isProductDataLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <h1 className="text-3xl font-bold">Loading...</h1>
+      </div>
+    );
+  }
+
+  if (isFetched && data?.error) {
+    console.error("Error fetching product data");
+    return <Navigate to="/404" replace/>;
+  }
 
   return (
     <>

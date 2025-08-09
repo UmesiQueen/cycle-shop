@@ -1,7 +1,7 @@
 /* Landing Section */
 #landing {
   min-height: 100vh;
-  height: 700px;
+  height: 600px;
   background-image: url("../../assets/images/bgImage/bike-hero.jpg");
   color: var(--global-color-5);
 }
@@ -20,10 +20,6 @@
 
 @media screen and (max-width: 1024px) {
   #landing {
-    max-height: 32rem;
-  }
-
-  #landing .__image-overlay {
     max-height: 32rem;
   }
 }
